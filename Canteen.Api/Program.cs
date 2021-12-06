@@ -1,4 +1,5 @@
 using System.Text;
+using Canteen.Api;
 using Canteen.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +19,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
+builder.Services.AddAutoMapper(typeof(CanteenProfile));
 builder.Services.AddControllers();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policyBuilder =>
 {
