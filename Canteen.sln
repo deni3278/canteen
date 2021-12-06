@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canteen.Data", "Canteen.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canteen.Dto", "Canteen.Dto\Canteen.Dto.csproj", "{9D698F70-8E4D-45A7-91C5-98094C5F106D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canteen.Api.Tests", "Canteen.Api.Tests\Canteen.Api.Tests.csproj", "{58970C84-1BE6-4543-AADE-3DD0D9DFDE5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{9D698F70-8E4D-45A7-91C5-98094C5F106D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D698F70-8E4D-45A7-91C5-98094C5F106D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D698F70-8E4D-45A7-91C5-98094C5F106D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58970C84-1BE6-4543-AADE-3DD0D9DFDE5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58970C84-1BE6-4543-AADE-3DD0D9DFDE5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58970C84-1BE6-4543-AADE-3DD0D9DFDE5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58970C84-1BE6-4543-AADE-3DD0D9DFDE5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
