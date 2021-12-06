@@ -10,8 +10,19 @@
              d:DesignHeight="768"
              Padding="20">
     <Grid>
-        <Label Content="Employees View"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center" />
+        <ListView ItemsSource="{Binding Path=Employees}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id"
+                                    DisplayMemberBinding="{Binding EmployeeId}" />
+                    
+                    <GridViewColumn Header="First Name"
+                                    DisplayMemberBinding="{Binding FirstName}" />
+                    
+                    <GridViewColumn Header="Last Name"
+                                    DisplayMemberBinding="{Binding LastName}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </UserControl>

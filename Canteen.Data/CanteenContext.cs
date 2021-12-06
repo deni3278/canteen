@@ -27,8 +27,7 @@ public partial class CanteenContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
-            optionsBuilder.UseSqlServer(
-                "Password=cokanovic;Persist Security Info=True;User ID=sa;Initial Catalog=Canteen;Data Source=DESKTOP-RRR15PD");
+            optionsBuilder.UseSqlServer("Password=cokanovic;Persist Security Info=True;User ID=sa;Initial Catalog=Canteen;Data Source=DESKTOP-P31TN1U");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

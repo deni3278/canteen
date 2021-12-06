@@ -8,22 +8,22 @@ namespace Canteen.Management;
 
 public static class ServiceCollectionExtensions
 {
+    public static void AddApi(this IServiceCollection services)
+    {
+        services.AddScoped<IApiService, ApiService>();
+    }
+
     public static void AddHttpClient(this IServiceCollection services)
     {
         services.AddHttpClient<IApiService, ApiService>(client =>
         {
-            client.BaseAddress = new Uri("");
+            client.BaseAddress = new UriBuilder("https", "localhost", 7106).Uri;
             client.Timeout = TimeSpan.FromSeconds(30);
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         });
     }
-    
-    public static void AddManagementServices(this IServiceCollection services)
-    {
-        services.AddScoped<IApiService, ApiService>();
-    }
-    
+
     public static void AddViewModels(this IServiceCollection services)
     {
         services.AddScoped<DashboardViewModel>();
