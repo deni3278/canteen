@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canteen.Dto", "Canteen.Dto\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canteen.Api.Tests", "Canteen.Api.Tests\Canteen.Api.Tests.csproj", "{58970C84-1BE6-4543-AADE-3DD0D9DFDE5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canteen.Management", "Canteen.Management\Canteen.Management.csproj", "{A9A8B6B9-8D43-4D02-BB9E-9BDBFCF731F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{58970C84-1BE6-4543-AADE-3DD0D9DFDE5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58970C84-1BE6-4543-AADE-3DD0D9DFDE5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58970C84-1BE6-4543-AADE-3DD0D9DFDE5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9A8B6B9-8D43-4D02-BB9E-9BDBFCF731F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9A8B6B9-8D43-4D02-BB9E-9BDBFCF731F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9A8B6B9-8D43-4D02-BB9E-9BDBFCF731F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9A8B6B9-8D43-4D02-BB9E-9BDBFCF731F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
