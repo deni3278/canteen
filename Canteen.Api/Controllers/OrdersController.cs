@@ -5,6 +5,7 @@ using Canteen.DataAccess;
 using Canteen.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Canteen.Api.Controllers;
 
@@ -24,22 +25,24 @@ public class OrdersController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrderAsync(int id)
     {
-        var order = _context.Orders.Find(id);
+        var order = await _context.Orders.FindAsync(id);
+        
         if (order == null)
-        {
             return NotFound();
-        }
+
         _context.Orders.Remove(order);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
+        
         return Ok();
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync()
     {
-        var orders = _context.Orders.ToList();
-        var ordersDto = _mapper.Map<List<OrderDto>>(orders);
-        return Ok(ordersDto);
+        IEnumerable<Order> orders = await _context.Orders.ToListAsync();
+        var orderDtos = _mapper.Map<IEnumerable<OrderDto>>(orders);
+        
+        return Ok(orderDtos);
     }
     
     [HttpPost]
@@ -87,5 +90,4 @@ public class OrdersController : ControllerBase
 
         return _mapper.Map<Order,OrderDto>(order);
     }
-
 }

@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using System.Text.Json;
 using Canteen.DataAccess;
+using Canteen.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,17 +24,12 @@ public class LoginController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost]
-    public async Task<IActionResult> LoginAsync([FromBody] JsonElement json)
+    public async Task<IActionResult> LoginAsync(PasswordDto passwordDto)
     {
-        if (!json.TryGetProperty("password", out var passwordProperty))
+        if (passwordDto.Password == null)
             return BadRequest();
 
-        var password = passwordProperty.GetString();
-
-        if (password == null)
-            return BadRequest();
-
-        var employee = await _context.Employees.Where(employee => employee.Password.Equals(password))
+        var employee = await _context.Employees.Where(employee => employee.Password.Equals(passwordDto.Password))
             .FirstOrDefaultAsync();
 
         if (employee == null)
