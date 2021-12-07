@@ -20,6 +20,10 @@
             <Trigger Property="ItemsControl.AlternationIndex" Value="1">
                 <Setter Property="Background" Value="#e1e1e1" />
             </Trigger>
+            
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#aed2b4" />
+            </Trigger>
         </Style.Triggers>
     </Style>
 

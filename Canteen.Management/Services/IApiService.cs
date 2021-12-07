@@ -6,4 +6,5 @@ public interface IApiService
 {
     ValueTask<bool> LoginAsync();
     Task<TDto> GetAsync<TDto>(string endpoint);
+    ValueTask<bool> PostAsync<T>(string endpoint, T json);
 }

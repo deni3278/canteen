@@ -28,6 +28,7 @@
             </Grid.RowDefinitions>
             
             <ListView ItemsSource="{Binding Path=Employees}"
+                      SelectionMode="Single"
                       AlternationCount="2"
                       Style="{StaticResource ResourceKey=ListView}"
                       Grid.Row="0">

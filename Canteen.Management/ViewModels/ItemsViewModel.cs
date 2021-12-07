@@ -16,10 +16,12 @@ public class ItemsViewModel : ObservableObject
     private double _idColumnWidth;
     private double _nameColumnWidth;
     private double _priceColumnWidth;
+    private ItemDto _selectedItem;
 
     public ObservableCollection<CategoryItemsDto> Categories { get; } = new();
     public IAsyncRelayCommand RefreshCommand { get; }
     public IRelayCommand<double> ResizeCommand { get; }
+    public IAsyncRelayCommand RemoveCommand { get; }
 
     public double IdColumnWidth
     {
@@ -39,27 +41,38 @@ public class ItemsViewModel : ObservableObject
         set => SetProperty(ref _priceColumnWidth, value);
     }
 
+    public ItemDto SelectedItem
+    {
+        get => _selectedItem;
+        set
+        {
+            SetProperty(ref _selectedItem, value);
+            RemoveCommand.NotifyCanExecuteChanged();
+        }
+    }
+
     public ItemsViewModel(IApiService api)
     {
         _api = api;
 
         RefreshCommand = new AsyncRelayCommand(Refresh);
         ResizeCommand = new RelayCommand<double>(Resize);
+        RemoveCommand = new AsyncRelayCommand(async () => await _api.PostAsync("items/delete", SelectedItem), () => SelectedItem != null);
     }
 
     private async Task Refresh()
     {
         var categoryItems = await _api.GetAsync<IEnumerable<CategoryItemsDto>>("categories?includeItems=true");
-        
+
         if (categoryItems.SequenceEqual(Categories, new CategoryItemsEqualityComparer()))
             return;
-        
+
         Categories.Clear();
-        
+
         foreach (var category in categoryItems)
         {
             category.Items = new ObservableCollection<ItemDto>(category.Items);
-            
+
             Categories.Add(category);
         }
     }
@@ -67,7 +80,7 @@ public class ItemsViewModel : ObservableObject
     private void Resize(double viewWidth)
     {
         var actualWidth = viewWidth - SystemParameters.VerticalScrollBarWidth;
-        
+
         const double idColumn = 0.20;
         const double nameColumn = 0.60;
         const double priceColumn = 0.20;

@@ -3,13 +3,14 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Canteen.Dto;
 
 namespace Canteen.Management.Services;
 
 public class ApiService : IApiService
 {
     private readonly HttpClient _client;
-    
+
     public ApiService(HttpClient client)
     {
         _client = client;
@@ -19,7 +20,7 @@ public class ApiService : IApiService
 
     public async ValueTask<bool> LoginAsync()
     {
-        var response = await _client.PostAsJsonAsync("login", new {password = ""});
+        var response = await _client.PostAsJsonAsync("login", new PasswordDto {Password = ""});
 
         response.EnsureSuccessStatusCode();
 
@@ -50,5 +51,12 @@ public class ApiService : IApiService
             throw new JsonException("Cannot deserialize to the specified type");
 
         return json;
+    }
+
+    public async ValueTask<bool> PostAsync<T>(string endpoint, T json)
+    {
+        var response = await _client.PostAsJsonAsync(endpoint, json);
+
+        return response.IsSuccessStatusCode;
     }
 }

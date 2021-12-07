@@ -39,7 +39,7 @@ public class ItemsController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete]
+    [HttpPost("delete")]
     public async Task<IActionResult> DeleteItemAsync(ItemIdDto itemIdDto)
     {
         if (itemIdDto.ItemId == null)
@@ -56,7 +56,7 @@ public class ItemsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<IActionResult> CreateItemAsync(ItemDto itemDto)
     {
         return Ok();
