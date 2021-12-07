@@ -20,7 +20,7 @@ public class EmployeesController : ControllerBase
         _context = context;
         _mapper = mapper;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetEmployees()
     {
@@ -31,5 +31,24 @@ public class EmployeesController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError);
 
         return Ok(employeeDtos);
+    }
+
+    [HttpGet("token")]
+    public async Task<ActionResult<EmployeeDto>> GetEmployeeFromJwtAsync()
+    {
+        var employeeIdClaim = User.Claims.FirstOrDefault(claim => claim.Type == "id")!;
+
+        if (!int.TryParse(employeeIdClaim.Value, out var employeeId))
+            return BadRequest();
+
+        var employee = await _context.Employees
+            .Include(employee => employee.Items)
+            .FirstOrDefaultAsync(employee1 => employee1.EmployeeId == employeeId);
+
+        if (employee == null)
+            return NotFound();
+
+        var employeeDto = _mapper.Map<EmployeeDto>(employee);
+        return Ok(employeeDto);
     }
 }
