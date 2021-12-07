@@ -10,15 +10,18 @@
              d:DesignHeight="768"
              Padding="20">
     <Grid>
-        <ListView ItemsSource="{Binding Path=Employees}">
+        <ListView ItemsSource="{Binding Path=Employees}"
+                  Style="{StaticResource ListView}"
+                  SizeChanged="ListView_OnSizeChanged">
+
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id"
                                     DisplayMemberBinding="{Binding EmployeeId}" />
-                    
+
                     <GridViewColumn Header="First Name"
                                     DisplayMemberBinding="{Binding FirstName}" />
-                    
+
                     <GridViewColumn Header="Last Name"
                                     DisplayMemberBinding="{Binding LastName}" />
                 </GridView>
