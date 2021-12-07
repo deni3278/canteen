@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using Canteen.Dto;
 using Canteen.Management.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -14,17 +13,38 @@ namespace Canteen.Management.ViewModels;
 public class ItemsViewModel : ObservableObject
 {
     private readonly IApiService _api;
-    
+    private double _idColumnWidth;
+    private double _nameColumnWidth;
+    private double _priceColumnWidth;
+
     public ObservableCollection<CategoryItemsDto> Categories { get; } = new();
     public IAsyncRelayCommand RefreshCommand { get; }
-    public IRelayCommand<ListView> ResizeCommand { get; }
+    public IRelayCommand<double> ResizeCommand { get; }
+
+    public double IdColumnWidth
+    {
+        get => _idColumnWidth;
+        set => SetProperty(ref _idColumnWidth, value);
+    }
+
+    public double NameColumnWidth
+    {
+        get => _nameColumnWidth;
+        set => SetProperty(ref _nameColumnWidth, value);
+    }
+
+    public double PriceColumnWidth
+    {
+        get => _priceColumnWidth;
+        set => SetProperty(ref _priceColumnWidth, value);
+    }
 
     public ItemsViewModel(IApiService api)
     {
         _api = api;
 
         RefreshCommand = new AsyncRelayCommand(Refresh);
-        ResizeCommand = new RelayCommand<ListView>(ResizeListView);
+        ResizeCommand = new RelayCommand<double>(Resize);
     }
 
     private async Task Refresh()
@@ -44,17 +64,16 @@ public class ItemsViewModel : ObservableObject
         }
     }
 
-    private void ResizeListView(ListView list)
+    private void Resize(double viewWidth)
     {
-        var grid = list.View as GridView;
-        var actualWidth = list.ActualWidth - SystemParameters.VerticalScrollBarWidth;
+        var actualWidth = viewWidth - SystemParameters.VerticalScrollBarWidth;
         
-        const double first = 0.20;
-        const double second = 0.60;
-        const double third = 0.20;
+        const double idColumn = 0.20;
+        const double nameColumn = 0.60;
+        const double priceColumn = 0.20;
 
-        grid.Columns[0].Width = actualWidth * first;
-        grid.Columns[1].Width = actualWidth * second;
-        grid.Columns[2].Width = actualWidth * third;
+        IdColumnWidth = actualWidth * idColumn;
+        NameColumnWidth = actualWidth * nameColumn;
+        PriceColumnWidth = actualWidth * priceColumn;
     }
 }

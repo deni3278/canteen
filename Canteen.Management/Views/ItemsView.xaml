@@ -18,7 +18,13 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
 
-        <TabControl ItemsSource="{Binding Path=Categories}">
+        <TabControl ItemsSource="{Binding Path=Categories}"
+                    Background="#f6f6f6"
+                    BorderThickness="0">
+            <TabControl.Effect>
+                <DropShadowEffect Direction="270" Opacity="0.3" />
+            </TabControl.Effect>
+            
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path=Name}" />
@@ -27,25 +33,92 @@
 
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type TypeName=dto:CategoryItemsDto}">
-                    <Grid>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        
                         <ListView ItemsSource="{Binding Path=Items}"
                                   Style="{StaticResource ListView}"
-                                  SizeChanged="ListView_OnSizeChanged">
+                                  Grid.Row="0">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                            AncestorType={x:Type TypeName=UserControl}, 
+                                                                                                            AncestorLevel=1}, 
+                                                                             Path=DataContext.ResizeCommand}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                                     AncestorType={x:Type TypeName=ListView}}, 
+                                                                                      Path=ActualWidth}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="SizeChanged">
+                                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                            AncestorType={x:Type TypeName=UserControl}, 
+                                                                                                            AncestorLevel=1}, 
+                                                                             Path=DataContext.ResizeCommand}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                                     AncestorType={x:Type TypeName=ListView}}, 
+                                                                                      Path=ActualWidth}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Id"
-                                                    DisplayMemberBinding="{Binding Path=ItemId}" />
+                                                    DisplayMemberBinding="{Binding Path=ItemId}"
+                                                    Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                   AncestorType={x:Type UserControl}, 
+                                                                                                   AncestorLevel=1}, 
+                                                                    Path=DataContext.IdColumnWidth}" />
                                     <GridViewColumn Header="Name"
-                                                    DisplayMemberBinding="{Binding Path=Name}" />
+                                                    DisplayMemberBinding="{Binding Path=Name}"
+                                                    Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                   AncestorType={x:Type UserControl}, 
+                                                                                                   AncestorLevel=1}, 
+                                                                    Path=DataContext.NameColumnWidth}" />
                                     <GridViewColumn Header="Price"
-                                                    DisplayMemberBinding="{Binding Path=Price}" />
+                                                    DisplayMemberBinding="{Binding Path=Price}"
+                                                    Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                   AncestorType={x:Type UserControl}, 
+                                                                                                   AncestorLevel=1}, 
+                                                                    Path=DataContext.PriceColumnWidth}" />
                                 </GridView>
                             </ListView.View>
                         </ListView>
+                        
+                        <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                   AncestorType={x:Type UserControl}, 
+                                                                                   AncestorLevel=1}, 
+                                                    Path=DataContext}"
+                              Grid.Row="1">
+                            <StackPanel Orientation="Horizontal"
+                                        Background="#83b48b">
+                                <StackPanel.Resources>
+                                    <Style BasedOn="{StaticResource ResourceKey=Button}"
+                                           TargetType="Button">
+                                        <Setter Property="Margin" Value="10 10 0 10" />
+                                        <Setter Property="Width" Value="100" />
+                                        <Setter Property="Height" Value="40" />
+                                        
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Direction="270" Opacity="0.3" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Button Content="Add" />
+                                
+                                <Button Content="Remove" />
+                                
+                                <Button Content="Refresh"
+                                        Command="{Binding Path=RefreshCommand}" />
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
-
         </TabControl>
     </Grid>
 </UserControl>

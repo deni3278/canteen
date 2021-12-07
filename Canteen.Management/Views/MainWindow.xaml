@@ -35,17 +35,17 @@
                    Height="100" />
 
             <RadioButton Content="Dashboard"
-                         Command="{Binding DashboardCommand}"
+                         Command="{Binding Path=DashboardCommand}"
                          IsChecked="True" />
 
             <RadioButton Content="Employees"
-                         Command="{Binding EmployeesCommand}" />
+                         Command="{Binding Path=EmployeesCommand}" />
 
             <RadioButton Content="Items"
-                         Command="{Binding ItemsCommand}" />
+                         Command="{Binding Path=ItemsCommand}" />
 
             <RadioButton Content="Menu"
-                         Command="{Binding MenuCommand}" />
+                         Command="{Binding Path=MenuCommand}" />
 
         </StackPanel>
 

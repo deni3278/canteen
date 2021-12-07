@@ -10,28 +10,97 @@
              d:DesignWidth="824"
              d:DesignHeight="768"
              Padding="20">
-    <Grid>
+    <Grid Background="#f6f6f6">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <i:InvokeCommandAction Command="{Binding Path=RefreshCommand}" />
             </i:EventTrigger>
         </i:Interaction.Triggers>
-        
-        <ListView ItemsSource="{Binding Path=Employees}"
-                  Style="{StaticResource ListView}"
-                  SizeChanged="ListView_OnSizeChanged">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Id"
-                                    DisplayMemberBinding="{Binding Path=EmployeeId}" />
 
-                    <GridViewColumn Header="First Name"
-                                    DisplayMemberBinding="{Binding Path=FirstName}" />
+        <Grid.Effect>
+            <DropShadowEffect Direction="270" Opacity="0.3" />
+        </Grid.Effect>
 
-                    <GridViewColumn Header="Last Name"
-                                    DisplayMemberBinding="{Binding Path=LastName}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <ListView ItemsSource="{Binding Path=Employees}"
+                      Style="{StaticResource ResourceKey=ListView}"
+                      Grid.Row="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction
+                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                             AncestorType={x:Type TypeName=UserControl}, 
+                                                                             AncestorLevel=1}, 
+                                              Path=DataContext.ResizeCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                      AncestorType={x:Type TypeName=ListView}}, 
+                                                       Path=ActualWidth}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="SizeChanged">
+                        <i:InvokeCommandAction
+                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                             AncestorType={x:Type TypeName=UserControl}, 
+                                                                             AncestorLevel=1}, 
+                                              Path=DataContext.ResizeCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                      AncestorType={x:Type TypeName=ListView}}, 
+                                                       Path=ActualWidth}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Id"
+                                        DisplayMemberBinding="{Binding Path=EmployeeId}"
+                                        Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                       AncestorType={x:Type UserControl}, 
+                                                                                       AncestorLevel=1}, 
+                                                        Path=DataContext.IdColumnWidth}" />
+
+                        <GridViewColumn Header="First Name"
+                                        DisplayMemberBinding="{Binding Path=FirstName}"
+                                        Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                       AncestorType={x:Type UserControl}, 
+                                                                                       AncestorLevel=1}, 
+                                                        Path=DataContext.FirstNameColumnWidth}" />
+
+                        <GridViewColumn Header="Last Name"
+                                        DisplayMemberBinding="{Binding Path=LastName}"
+                                        Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                       AncestorType={x:Type UserControl}, 
+                                                                                       AncestorLevel=1}, 
+                                                        Path=DataContext.LastNameColumnWidth}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Horizontal"
+                            Background="#83b48b">
+                    <StackPanel.Resources>
+                        <Style BasedOn="{StaticResource ResourceKey=Button}"
+                               TargetType="Button">
+                            <Setter Property="Margin" Value="10 10 0 10" />
+                            <Setter Property="Width" Value="100" />
+                            <Setter Property="Height" Value="40" />
+
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect Direction="270" Opacity="0.3" />
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <Button Content="Refresh"
+                            Command="{Binding RefreshCommand}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>
