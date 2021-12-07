@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Canteen.Management.Services;
 
@@ -22,8 +23,7 @@ public class ApiService : IApiService
     {
         var response = await _client.PostAsJsonAsync("login", new {password = ""});
 
-        if (!response.IsSuccessStatusCode)
-            return false;
+        response.EnsureSuccessStatusCode();
 
         var json = await response.Content.ReadFromJsonAsync<JsonElement>();
 
@@ -35,8 +35,22 @@ public class ApiService : IApiService
         if (token == null)
             return false;
 
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        AuthenticationDelegatingHandler.Token = token;
 
         return true;
+    }
+
+    public async Task<T> GetAsync<T>(string endpoint)
+    {
+        var response = await _client.GetAsync(endpoint);
+
+        response.EnsureSuccessStatusCode();
+
+        var json = await response.Content.ReadFromJsonAsync<T>();
+
+        if (json == null)
+            throw new JsonException("Cannot deserialize to the specified type");
+
+        return json;
     }
 }

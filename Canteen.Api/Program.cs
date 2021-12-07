@@ -30,17 +30,23 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policyBuilder =>
 }));
 builder.Services.AddDbContext<CanteenContext>(optionsBuilder => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("Canteen")));
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddSwaggerGen(c =>
 {
-    var securityScheme = new OpenApiSecurityScheme
+    var securitySchema = new OpenApiSecurityScheme
     {
-        Name = "JWT",
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
         In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
     };
-
-    options.AddSecurityDefinition("Bearer", securityScheme);
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement {{securityScheme, new[] {"Bearer"}}});
+    c.AddSecurityDefinition("Bearer", securitySchema);
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {{securitySchema, new[] {"Bearer"}}});
 });
 
 var app = builder.Build();

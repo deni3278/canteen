@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:viewModels="clr-namespace:Canteen.Management.ViewModels"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:EmployeesViewModel, IsDesignTimeCreatable=True}"
@@ -10,20 +11,25 @@
              d:DesignHeight="768"
              Padding="20">
     <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding Path=RefreshCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        
         <ListView ItemsSource="{Binding Path=Employees}"
                   Style="{StaticResource ListView}"
                   SizeChanged="ListView_OnSizeChanged">
-
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id"
-                                    DisplayMemberBinding="{Binding EmployeeId}" />
+                                    DisplayMemberBinding="{Binding Path=EmployeeId}" />
 
                     <GridViewColumn Header="First Name"
-                                    DisplayMemberBinding="{Binding FirstName}" />
+                                    DisplayMemberBinding="{Binding Path=FirstName}" />
 
                     <GridViewColumn Header="Last Name"
-                                    DisplayMemberBinding="{Binding LastName}" />
+                                    DisplayMemberBinding="{Binding Path=LastName}" />
                 </GridView>
             </ListView.View>
         </ListView>
