@@ -7,4 +7,5 @@ public class ItemDto
     public string Name { get; set; } = null!;
     public decimal Price { get; set; }
     public byte[] Image { get; set; } = null!;
+    public CategoryDto Category { get; set; } = null!;
 }
