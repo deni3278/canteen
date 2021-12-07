@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.Json;
 using Canteen.Api.Controllers;
 using Canteen.Api.Tests.Fixtures;
+using Canteen.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
@@ -23,7 +24,7 @@ public class LoginControllerTest : IClassFixture<ContextFixture>, IClassFixture<
     public async void Login_Authorized_ReturnOk()
     {
         var employee = _contextFixture.Context.Employees.First();
-        var response = await _controller.LoginAsync(JsonSerializer.SerializeToDocument(new {password = employee.Password}).RootElement);
+        var response = await _controller.LoginAsync(new PasswordDto {Password = employee.Password});
 
         Assert.Equal(typeof(OkObjectResult), response.GetType());
     }
@@ -31,7 +32,9 @@ public class LoginControllerTest : IClassFixture<ContextFixture>, IClassFixture<
     [Fact]
     public async void Login_Unauthorized_ReturnUnauthorized()
     {
-        var response = await _controller.LoginAsync(JsonSerializer.SerializeToDocument(new {password = Guid.NewGuid()}).RootElement);
+        var response =
+            await _controller.LoginAsync(
+                new PasswordDto {Password = Guid.NewGuid().ToString()});
 
         Assert.Equal(typeof(UnauthorizedResult), response.GetType());
     }
@@ -39,7 +42,7 @@ public class LoginControllerTest : IClassFixture<ContextFixture>, IClassFixture<
     [Fact]
     public async void Login_Null_ReturnBadRequest()
     {
-        var response = await _controller.LoginAsync(JsonSerializer.SerializeToDocument(new {}).RootElement);
+        var response = await _controller.LoginAsync(new PasswordDto {Password = null});
 
         Assert.Equal(typeof(BadRequestResult), response.GetType());
     }

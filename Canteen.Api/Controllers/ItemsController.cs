@@ -40,14 +40,25 @@ public class ItemsController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id:int}")]
-    public async Task<ActionResult> DeleteItemAsync(int id)
+    [HttpDelete]
+    public async Task<ActionResult> DeleteItemAsync(ItemIdDto itemIdDto)
     {
-        return NoContent();
+        if (itemIdDto.ItemId == null)
+            return BadRequest();
+
+        var item = await _context.Items.FindAsync(itemIdDto.ItemId);
+
+        if (item == null)
+            return BadRequest();
+
+        _context.Items.Remove(item);
+        await _context.SaveChangesAsync();
+        
+        return Ok();
     }
 
     [HttpPost]
-    public async Task<ActionResult<ItemDto>> CreateItemAsync([FromBody] JsonElement json)
+    public async Task<ActionResult<ItemDto>> CreateItemAsync(ItemDto itemDto)
     {
         return Ok();
     }
