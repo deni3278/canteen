@@ -70,9 +70,41 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             
+                            <ListView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Add"
+                                              Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                               AncestorType={x:Type Type=UserControl},
+                                                                                               AncestorLevel=1},
+                                                                Path=DataContext.AddCommand}"/>
+                                    <MenuItem Header="Refresh"
+                                              Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                               AncestorType={x:Type Type=UserControl},
+                                                                                               AncestorLevel=1},
+                                                                Path=DataContext.RefreshCommand}"/>
+                                </ContextMenu>
+                            </ListView.ContextMenu>
+                            
                             <ListView.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource ResourceKey=ListViewItem}"
-                                       TargetType="ListViewItem" />
+                                       TargetType="ListViewItem">
+                                    <Setter Property="ContextMenu">
+                                        <Setter.Value>
+                                            <ContextMenu>
+                                                <MenuItem Header="Remove"
+                                                          Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                           AncestorType={x:Type Type=UserControl},
+                                                                                                           AncestorLevel=1},
+                                                                            Path=DataContext.RemoveCommand}" />
+                                                <MenuItem Header="Refresh"
+                                                          Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                           AncestorType={x:Type Type=UserControl},
+                                                                                                           AncestorLevel=1},
+                                                                            Path=DataContext.RefreshCommand}" />
+                                            </ContextMenu>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
                             </ListView.ItemContainerStyle>
                             
                             <ListView.View>
@@ -125,7 +157,8 @@
                                         </Setter>
                                     </Style>
                                 </StackPanel.Resources>
-                                <Button Content="Add" />
+                                <Button Content="Add"
+                                        Command="{Binding Path=AddCommand}" />
                                 
                                 <Button Content="Remove"
                                         Command="{Binding Path=RemoveCommand}" />

@@ -19,6 +19,7 @@ public class ItemsViewModel : ObservableObject
     private ItemDto _selectedItem;
 
     public ObservableCollection<CategoryItemsDto> Categories { get; } = new();
+    public IAsyncRelayCommand AddCommand { get; }
     public IAsyncRelayCommand RefreshCommand { get; }
     public IRelayCommand<double> ResizeCommand { get; }
     public IAsyncRelayCommand RemoveCommand { get; }
@@ -55,6 +56,7 @@ public class ItemsViewModel : ObservableObject
     {
         _api = api;
 
+        AddCommand = new AsyncRelayCommand(async () => await Task.Run(() => MessageBox.Show("\"Add\" hasn't been implemented yet.", "Canteen Management", MessageBoxButton.OK, MessageBoxImage.Information)));
         RefreshCommand = new AsyncRelayCommand(Refresh);
         ResizeCommand = new RelayCommand<double>(Resize);
         RemoveCommand = new AsyncRelayCommand(async () => await _api.PostAsync("items/delete", SelectedItem), () => SelectedItem != null);
