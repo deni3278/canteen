@@ -43,7 +43,11 @@ public class LoginController : ControllerBase
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
         var tokenHandler = new JwtSecurityTokenHandler();
-        var securityToken = tokenHandler.CreateJwtSecurityToken(new SecurityTokenDescriptor {SigningCredentials = credentials});
+        var securityToken = tokenHandler.CreateJwtSecurityToken(new SecurityTokenDescriptor
+        {
+            SigningCredentials = credentials,
+            Claims = new Dictionary<string, object> {["id"] = employee.EmployeeId}
+        });
         var jwt = new {token = tokenHandler.WriteToken(securityToken)};
 
         return Ok(jwt);
