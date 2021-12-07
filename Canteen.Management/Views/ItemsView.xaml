@@ -41,6 +41,7 @@
                         </Grid.RowDefinitions>
                         
                         <ListView ItemsSource="{Binding Path=Items}"
+                                  AlternationCount="2"
                                   Style="{StaticResource ListView}"
                                   Grid.Row="0">
                             <i:Interaction.Triggers>
@@ -64,8 +65,18 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             
+                            <ListView.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource ResourceKey=ListViewItem}"
+                                       TargetType="ListViewItem" />
+                            </ListView.ItemContainerStyle>
+                            
                             <ListView.View>
                                 <GridView>
+                                    <GridView.ColumnHeaderContainerStyle>
+                                        <Style BasedOn="{StaticResource ResourceKey=GridViewColumnHeader}"
+                                               TargetType="GridViewColumnHeader" />
+                                    </GridView.ColumnHeaderContainerStyle>
+                                    
                                     <GridViewColumn Header="Id"
                                                     DisplayMemberBinding="{Binding Path=ItemId}"
                                                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
