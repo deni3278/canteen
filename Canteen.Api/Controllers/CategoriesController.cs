@@ -23,7 +23,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCategories(bool includeItems)
+    public async Task<IActionResult> GetCategoriesAsync(bool includeItems)
     {
         var categoriesSet = _context.Categories;
         IEnumerable<Category> categories = includeItems

@@ -22,7 +22,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployees()
+    public async Task<IActionResult> GetEmployeesAsync()
     {
         IEnumerable<Employee> employees = await _context.Employees.ToListAsync();
         var employeeDtos = _mapper.Map<IEnumerable<EmployeeDto>>(employees);

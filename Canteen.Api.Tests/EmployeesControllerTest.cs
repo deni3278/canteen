@@ -41,7 +41,7 @@ public class EmployeesControllerTest : IClassFixture<ContextFixture>
     public async Task GetEmployees_Exists_ReturnDto()
     {
         var employees = _contextFixture.Context.Employees.AsEnumerable();
-        var employeeDtos = (await _controller.GetEmployees() as OkObjectResult).Value as IEnumerable<EmployeeDto>;
+        var employeeDtos = (await _controller.GetEmployeesAsync() as OkObjectResult).Value as IEnumerable<EmployeeDto>;
         
         Assert.Equal(employees.First().FirstName, employeeDtos.First().FirstName);
     }
