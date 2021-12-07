@@ -8,6 +8,8 @@ public class CanteenProfile : Profile
 {
     public CanteenProfile()
     {
+        CreateMap<Order, OrderDto>();
+        CreateMap<OrderItem, OrderItemDto>();
         CreateMap<LunchMenu, LunchMenuDto>();
         CreateMap<LunchCancellation, LunchCancellationDto>();
         
