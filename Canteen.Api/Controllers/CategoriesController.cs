@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections;
+using AutoMapper;
 using Canteen.DataAccess;
 using Canteen.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -22,14 +23,27 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCategories()
+    public async Task<IActionResult> GetCategories(bool includeItems)
     {
-        IEnumerable<Category> categories = await _context.Categories.ToListAsync();
-        var categoryDtos = _mapper.Map<IEnumerable<CategoryDto>>(categories);
-        
-        if (categoryDtos == null)
+        var categoriesSet = _context.Categories;
+        IEnumerable<Category> categories = includeItems
+            ? await categoriesSet.Include(category => category.Items).ToListAsync()
+            : await categoriesSet.ToListAsync();
+
+        IEnumerable dtos;
+
+        if (includeItems)
+        {
+            dtos = _mapper.Map<IEnumerable<CategoryItemsDto>>(categories);
+        }
+        else
+        {
+            dtos = _mapper.Map<IEnumerable<CategoryDto>>(categories);
+        }
+
+        if (dtos == null)
             return StatusCode(StatusCodes.Status500InternalServerError);
 
-        return Ok(categoryDtos);
+        return Ok(dtos);
     }
 }

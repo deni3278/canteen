@@ -10,6 +10,7 @@ public class CanteenProfile : Profile
     {
         CreateMap<Employee, EmployeeDto>().ReverseMap();
         CreateMap<Category, CategoryDto>().ReverseMap();
-        CreateMap<Item, ItemDto>().ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category)).ReverseMap();
+        CreateMap<Category, CategoryItemsDto>().ReverseMap();
+        CreateMap<Item, ItemDto>().ReverseMap();
     }
 }

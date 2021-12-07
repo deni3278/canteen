@@ -4,14 +4,48 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Canteen.Management.ViewModels"
+             xmlns:dto="clr-namespace:Canteen.Dto;assembly=Canteen.Dto"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:ItemsViewModel, IsDesignTimeCreatable=True}"
              d:DesignWidth="824"
              d:DesignHeight="768"
              Padding="20">
     <Grid>
-        <Label Content="Items View"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center" />
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding Path=RefreshCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
+        <TabControl ItemsSource="{Binding Path=Categories}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Name}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type TypeName=dto:CategoryItemsDto}">
+                    <Grid>
+                        <ListView ItemsSource="{Binding Path=Items}"
+                                  Style="{StaticResource ListView}"
+                                  SizeChanged="ListView_OnSizeChanged">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Id"
+                                                    DisplayMemberBinding="{Binding Path=ItemId}" />
+                                    <GridViewColumn Header="Name"
+                                                    DisplayMemberBinding="{Binding Path=Name}" />
+                                    <GridViewColumn Header="Price"
+                                                    DisplayMemberBinding="{Binding Path=Price}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+
+        </TabControl>
     </Grid>
 </UserControl>
