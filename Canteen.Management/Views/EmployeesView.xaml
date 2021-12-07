@@ -28,6 +28,7 @@
             </Grid.RowDefinitions>
             
             <ListView ItemsSource="{Binding Path=Employees}"
+                      AlternationCount="2"
                       Style="{StaticResource ResourceKey=ListView}"
                       Grid.Row="0">
                 <i:Interaction.Triggers>
@@ -52,9 +53,19 @@
                                                        Path=ActualWidth}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource ResourceKey=ListViewItem}"
+                           TargetType="ListViewItem" />
+                </ListView.ItemContainerStyle>
 
                 <ListView.View>
                     <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style BasedOn="{StaticResource ResourceKey=GridViewColumnHeader}"
+                                   TargetType="GridViewColumnHeader" />
+                        </GridView.ColumnHeaderContainerStyle>
+                        
                         <GridViewColumn Header="Id"
                                         DisplayMemberBinding="{Binding Path=EmployeeId}"
                                         Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 

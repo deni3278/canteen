@@ -4,4 +4,26 @@
            TargetType="ListView">
         <Setter Property="BorderThickness" Value="0" />
     </Style>
+
+    <Style x:Key="ListViewItem"
+           TargetType="ListViewItem">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0" />
+
+        <Style.Triggers>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                <Setter Property="Background" Value="#eeeeee" />
+            </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                <Setter Property="Background" Value="#e1e1e1" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="GridViewColumnHeader"
+           TargetType="GridViewColumnHeader">
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
 </ResourceDictionary>
