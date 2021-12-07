@@ -24,12 +24,6 @@ public partial class CanteenContext : DbContext
     public virtual DbSet<OrderItem> OrderItems { get; set; } = null!;
     public virtual DbSet<Week> Weeks { get; set; } = null!;
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-            optionsBuilder.UseSqlServer("Password=cokanovic;Persist Security Info=True;User ID=sa;Initial Catalog=Canteen;Data Source=DESKTOP-P31TN1U");
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>

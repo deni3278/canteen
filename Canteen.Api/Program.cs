@@ -2,6 +2,7 @@ using System.Text;
 using Canteen.Api;
 using Canteen.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -27,7 +28,7 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policyBuilder =>
     policyBuilder.AllowAnyMethod();
     policyBuilder.AllowAnyOrigin();
 }));
-builder.Services.AddDbContext<CanteenContext>();
+builder.Services.AddDbContext<CanteenContext>(optionsBuilder => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("Canteen")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
