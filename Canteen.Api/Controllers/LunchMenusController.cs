@@ -8,12 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Canteen.Api.Controllers;
 
+[AllowAnonymous] // TODO: Change to [Authorize] after testing
 [ApiController]
-[Route("api/[controller]")]
-[AllowAnonymous]
+[Route("[controller]")]
 public class LunchMenusController : ControllerBase
 {
-
     private readonly IMapper _mapper;
     private readonly CanteenContext _context;
 
@@ -24,18 +23,19 @@ public class LunchMenusController : ControllerBase
     }
 
     [HttpGet, Route("current")]
-    public async Task<ActionResult<LunchMenuDto>> GetCurrentMenu()
+    public async Task<ActionResult<LunchMenuDto>> GetCurrentMenuAsync()
     {
-        
-        short currentYear = (short)DateTime.Now.Year;
-        short currentWeek = (short) ISOWeek.GetWeekOfYear(DateTime.Now);
+        var currentYear = (short) DateTime.Now.Year;
+        var currentWeek = (short) ISOWeek.GetWeekOfYear(DateTime.Now);
+
         var lunchMenu = await _context.LunchMenus
             .Include(menu => menu.LunchCancellations)
-            .FirstOrDefaultAsync(menu => menu.Number == currentWeek && menu.Year == currentYear);
-        
+            .FirstAsync(menu => menu.Number == currentWeek && menu.Year == currentYear);
         var lunchMenuDto = _mapper.Map<LunchMenuDto>(lunchMenu);
+
+        if (lunchMenuDto == null)
+            return StatusCode(StatusCodes.Status500InternalServerError);
 
         return Ok(lunchMenuDto);
     }
 }
-

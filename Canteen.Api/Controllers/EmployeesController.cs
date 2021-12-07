@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Canteen.Api.Controllers;
 
+[AllowAnonymous] // TODO: Change to [Authorize] after testing
 [ApiController]
-[Authorize]
 [Route("[controller]")]
 public class EmployeesController : ControllerBase
 {
@@ -22,7 +22,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployees()
+    public async Task<IActionResult> GetEmployeesAsync()
     {
         IEnumerable<Employee> employees = await _context.Employees.ToListAsync();
         var employeeDtos = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
