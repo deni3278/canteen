@@ -25,11 +25,12 @@
                 <DropShadowEffect Direction="270" Opacity="0.3" />
             </TabControl.Effect>
             
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Path=Name}" />
-                </DataTemplate>
-            </TabControl.ItemTemplate>
+            <TabControl.ItemContainerStyle>
+                <Style BasedOn="{StaticResource ResourceKey=TabItem}"
+                       TargetType="TabItem">
+                    <Setter Property="Header" Value="{Binding Path=Name}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
 
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type TypeName=dto:CategoryItemsDto}">
