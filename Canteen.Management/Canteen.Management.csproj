@@ -18,8 +18,4 @@
       <ProjectReference Include="..\Canteen.Dto\Canteen.Dto.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Controls" />
-    </ItemGroup>
-
 </Project>
