@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using AutoMapper;
+﻿using AutoMapper;
 using Canteen.DataAccess;
 using Canteen.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +22,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ItemDto>>> GetItemsAsync()
+    public async Task<IActionResult> GetItemsAsync()
     {
         IEnumerable<Item> items = await _context.Items.Include(item => item.Category).ToListAsync();
         var itemDtos = _mapper.Map<IEnumerable<ItemDto>>(items);
@@ -35,13 +34,13 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet("{categoryId:int}")]
-    public async Task<ActionResult<List<ItemDto>>> GetItemsByCategoryIdAsync(int categoryId)
+    public async Task<IActionResult> GetItemsByCategoryIdAsync(int categoryId)
     {
         return Ok();
     }
 
     [HttpDelete]
-    public async Task<ActionResult> DeleteItemAsync(ItemIdDto itemIdDto)
+    public async Task<IActionResult> DeleteItemAsync(ItemIdDto itemIdDto)
     {
         if (itemIdDto.ItemId == null)
             return BadRequest();
@@ -58,7 +57,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ItemDto>> CreateItemAsync(ItemDto itemDto)
+    public async Task<IActionResult> CreateItemAsync(ItemDto itemDto)
     {
         return Ok();
     }
