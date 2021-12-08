@@ -8,14 +8,14 @@ public class CanteenProfile : Profile
 {
     public CanteenProfile()
     {
-        CreateMap<Category, CategoryDto>();
-        CreateMap<Category, CategoryItemsDto>();
+        CreateMap<EmployeeLunch, EmployeeLunchDto>().ReverseMap();
+        CreateMap<Order, OrderDto>().ReverseMap();
+        CreateMap<OrderItem, OrderItemDto>().ReverseMap();
+        CreateMap<LunchMenu, LunchMenuDto>().ReverseMap();
+        CreateMap<LunchCancellation, LunchCancellationDto>().ReverseMap();
+        
         CreateMap<Employee, EmployeeDto>()
             .ForMember(dto => dto.Items, opt => opt.MapFrom(model => model.Items.Select(item => item.ItemId)));
         CreateMap<Item, ItemDto>().ReverseMap();
-        CreateMap<LunchCancellation, LunchCancellationDto>();
-        CreateMap<LunchMenu, LunchMenuDto>();
-        CreateMap<Order, OrderDto>();
-        CreateMap<OrderItem, OrderItemDto>();
     }
 }
