@@ -38,4 +38,37 @@ public class LunchMenusController : ControllerBase
 
         return Ok(lunchMenuDto);
     }
+    
+    [HttpPost, Route("employeeLunch")]
+    public async Task<ActionResult<EmployeeLunchDto>> PostEmployeeLunchAsync(EmployeeLunchDto employeeLunchDto)
+    {
+        var employeeLunch = _mapper.Map<EmployeeLunch>(employeeLunchDto);
+        
+        var existingEmployeeLunch = await _context.EmployeeLunches.FindAsync(employeeLunch.LunchMenuId,employeeLunch.EmployeeId);
+
+        if (existingEmployeeLunch == null)
+        {
+           await _context.EmployeeLunches.AddAsync(employeeLunch); 
+        }
+        else
+        {
+            _context.Entry(existingEmployeeLunch).CurrentValues.SetValues(employeeLunch);
+        }
+        
+        await _context.SaveChangesAsync();
+
+        return Ok(_mapper.Map<EmployeeLunchDto>(employeeLunch));
+    }
+    
+    [HttpGet,Route("employeeLunch/{employeeId}/{lunchMenuId}")]
+    public async Task<ActionResult<EmployeeLunchDto>> GetEmployeeLunchAsync(int lunchMenuId, int employeeId)
+    {
+        var employeeLunch = await _context.EmployeeLunches.FindAsync(lunchMenuId, employeeId);
+
+        if (employeeLunch == null)
+            return NotFound();
+
+        return Ok(_mapper.Map<EmployeeLunchDto>(employeeLunch));
+    }
+    
 }
