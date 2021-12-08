@@ -19,6 +19,7 @@
         </i:Interaction.Triggers>
 
         <TabControl ItemsSource="{Binding Path=Categories}"
+                    SelectedItem="{Binding Path=SelectedCategory}"
                     Background="#f6f6f6"
                     BorderThickness="0">
             <TabControl.Effect>
@@ -75,10 +76,7 @@
                                     <MenuItem Header="Add"
                                               Click="AddItem_OnClick" />
                                     <MenuItem Header="Refresh"
-                                              Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                                               AncestorType={x:Type Type=UserControl},
-                                                                                               AncestorLevel=1},
-                                                                Path=DataContext.RefreshCommand}" />
+                                              Click="Refresh_OnClick" />
                                 </ContextMenu>
                             </ListView.ContextMenu>
                             
@@ -89,15 +87,9 @@
                                         <Setter.Value>
                                             <ContextMenu>
                                                 <MenuItem Header="Remove"
-                                                          Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                                                           AncestorType={x:Type Type=UserControl},
-                                                                                                           AncestorLevel=1},
-                                                                            Path=DataContext.RemoveCommand}" />
+                                                          Click="RemoveItem_OnClick" />
                                                 <MenuItem Header="Refresh"
-                                                          Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                                                           AncestorType={x:Type Type=UserControl},
-                                                                                                           AncestorLevel=1},
-                                                                            Path=DataContext.RefreshCommand}" />
+                                                          Click="Refresh_OnClick" />
                                             </ContextMenu>
                                         </Setter.Value>
                                     </Setter>
