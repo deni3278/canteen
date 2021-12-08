@@ -51,4 +51,52 @@ public class EmployeesController : ControllerBase
         var employeeDto = _mapper.Map<EmployeeDto>(employee);
         return Ok(employeeDto);
     }
+
+    [HttpPost,Route("favourites")]
+    public async Task<IActionResult> addFavouriteItem(int itemId)
+    {
+        var item = await _context.Items.FindAsync(itemId);
+
+        var employeeIdClaim = User.Claims.FirstOrDefault(claim => claim.Type == "id")!;
+
+        if (!int.TryParse(employeeIdClaim.Value, out var employeeId))
+            return BadRequest();
+
+        var employee = await _context.Employees.FindAsync(employeeId);
+
+        if (employee == null)
+            return NotFound();
+
+        employee.Items.Add(item);
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+    
+    [HttpDelete,Route("favourites")]
+    public async Task<IActionResult> removeFavouriteItem(int itemId)
+    {
+        var item = await _context.Items.FindAsync(itemId);
+
+        var employeeIdClaim = User.Claims.FirstOrDefault(claim => claim.Type == "id")!;
+
+        if (!int.TryParse(employeeIdClaim.Value, out var employeeId))
+            return BadRequest();
+
+        var employee = await _context.Employees
+            .Include(employee => employee.Items)
+            .FirstAsync(employee => employee.EmployeeId == employeeId);
+
+        if (employee == null)
+            return NotFound();
+
+        
+        employee.Items.Remove(item);
+        
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
 }
