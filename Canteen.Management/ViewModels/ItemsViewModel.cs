@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Canteen.Dto;
 using Canteen.Management.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -60,6 +62,14 @@ public class ItemsViewModel : ObservableObject
         RefreshCommand = new AsyncRelayCommand(Refresh);
         ResizeCommand = new RelayCommand<double>(Resize);
         RemoveCommand = new AsyncRelayCommand(async () => await _api.PostAsync("items/delete", SelectedItem), () => SelectedItem != null);
+    }
+
+    public async Task AddItem(ItemDto item)
+    {
+        await _api.PostAsync("items/create", item);
+
+        await Task.Delay(2000); // Allow the database to save changes
+        await Refresh();
     }
 
     private async Task Refresh()

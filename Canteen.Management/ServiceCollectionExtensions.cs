@@ -32,5 +32,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ItemsViewModel>();
         services.AddTransient<MainWindowViewModel>();
         services.AddScoped<MenuViewModel>();
+        services.AddTransient<AddItemViewModel>();
     }
 }

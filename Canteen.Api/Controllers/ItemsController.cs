@@ -59,6 +59,17 @@ public class ItemsController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateItemAsync(ItemDto itemDto)
     {
+        if (itemDto == null)
+            return BadRequest();
+
+        var item = _mapper.Map<Item>(itemDto);
+        
+        if (item == null)
+            return StatusCode(StatusCodes.Status500InternalServerError);
+
+        await _context.Items.AddAsync(item);
+        await _context.SaveChangesAsync();
+        
         return Ok();
     }
 }

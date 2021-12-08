@@ -32,12 +32,11 @@
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Foreground" Value="#e9feec" />
                 <Setter Property="Background" Value="#aed2b4" />
+            </Trigger>
 
-                <Setter Property="Effect">
-                    <Setter.Value>
-                        <DropShadowEffect Direction="270" Opacity="0.3" />
-                    </Setter.Value>
-                </Setter>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Background" Value="Gray" />
             </Trigger>
         </Style.Triggers>
     </Style>
