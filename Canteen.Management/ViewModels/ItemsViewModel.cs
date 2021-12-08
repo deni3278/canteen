@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 using Canteen.Dto;
 using Canteen.Management.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -15,10 +13,12 @@ namespace Canteen.Management.ViewModels;
 public class ItemsViewModel : ObservableObject
 {
     private readonly IApiService _api;
+    
     private double _idColumnWidth;
     private double _nameColumnWidth;
     private double _priceColumnWidth;
     private ItemDto _selectedItem;
+    private CategoryItemsDto _selectedCategory;
 
     public ObservableCollection<CategoryItemsDto> Categories { get; } = new();
     public IAsyncRelayCommand AddCommand { get; }
@@ -54,6 +54,12 @@ public class ItemsViewModel : ObservableObject
         }
     }
 
+    public CategoryItemsDto SelectedCategory
+    {
+        get => _selectedCategory;
+        set => SetProperty(ref _selectedCategory, value);
+    }
+
     public ItemsViewModel(IApiService api)
     {
         _api = api;
@@ -67,8 +73,6 @@ public class ItemsViewModel : ObservableObject
     public async Task AddItem(ItemDto item)
     {
         await _api.PostAsync("items/create", item);
-
-        await Task.Delay(2000); // Allow the database to save changes
         await Refresh();
     }
 
@@ -79,6 +83,8 @@ public class ItemsViewModel : ObservableObject
         if (categoryItems.SequenceEqual(Categories, new CategoryItemsEqualityComparer()))
             return;
 
+        var selectedCategory = _selectedCategory;
+        
         Categories.Clear();
 
         foreach (var category in categoryItems)
@@ -87,6 +93,11 @@ public class ItemsViewModel : ObservableObject
 
             Categories.Add(category);
         }
+
+        selectedCategory = Categories.FirstOrDefault(category => category.Name.Equals(selectedCategory.Name));
+
+        if (selectedCategory != null)
+            SelectedCategory = selectedCategory;
     }
 
     private void Resize(double viewWidth)

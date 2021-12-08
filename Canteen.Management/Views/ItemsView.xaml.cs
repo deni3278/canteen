@@ -41,4 +41,16 @@ public partial class ItemsView : UserControl
 
         await itemsViewModel.AddItem(addItemViewModel.Item);
     }
+
+    private async void Refresh_OnClick(object sender, RoutedEventArgs e)
+    {
+        var itemsViewModel = DataContext as ItemsViewModel;
+        await itemsViewModel.RefreshCommand.ExecuteAsync(null);
+    }
+
+    private async void RemoveItem_OnClick(object sender, RoutedEventArgs e)
+    {
+        var itemsViewModel = DataContext as ItemsViewModel;
+        await itemsViewModel.RemoveCommand.ExecuteAsync(null);
+    }
 }
