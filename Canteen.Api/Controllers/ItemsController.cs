@@ -33,10 +33,18 @@ public class ItemsController : ControllerBase
         return Ok(itemDtos);
     }
 
-    [HttpGet("{categoryId:int}")]
+    [HttpGet("category/{categoryId:int}")]
     public async Task<IActionResult> GetItemsByCategoryIdAsync(int categoryId)
     {
         return Ok();
+    }
+    
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetItemByIdAsync(int id)
+    {
+        var item = await _context.Items.FindAsync(id);
+        
+        return Ok(_mapper.Map<ItemDto>(item));
     }
 
     [HttpPost("delete")]
