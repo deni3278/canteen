@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
 using Canteen.DataAccess;
 using Canteen.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -52,8 +53,20 @@ public class EmployeesController : ControllerBase
         return Ok(employeeDto);
     }
 
+    [HttpGet("cake/{id:int}")]
+    public async Task<IActionResult> GetEmployeeCakeAsync(int id)
+    {
+        var employeeCake = await _context.EmployeeCakes.Where(empCake => empCake.EmployeeId == id && 
+                                                                         empCake.Year == ISOWeek.GetYear(DateTime.Now) && 
+                                                                         empCake.Number == ISOWeek.GetWeekOfYear(DateTime.Now))
+                                                       .FirstAsync();
+        var employeeCakeDto = _mapper.Map<EmployeeCakeDto>(employeeCake);
+
+        return Ok(employeeCakeDto);
+    }
+
     [HttpPost,Route("favourites")]
-    public async Task<IActionResult> addFavouriteItem(int itemId)
+    public async Task<IActionResult> AddFavouriteItemAsync(int itemId)
     {
         var item = await _context.Items.FindAsync(itemId);
 
@@ -75,7 +88,7 @@ public class EmployeesController : ControllerBase
     }
     
     [HttpDelete,Route("favourites")]
-    public async Task<IActionResult> removeFavouriteItem(int itemId)
+    public async Task<IActionResult> RemoveFavouriteItemAsync(int itemId)
     {
         var item = await _context.Items.FindAsync(itemId);
 
@@ -93,7 +106,6 @@ public class EmployeesController : ControllerBase
 
         
         employee.Items.Remove(item);
-        
 
         await _context.SaveChangesAsync();
 

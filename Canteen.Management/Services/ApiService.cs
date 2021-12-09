@@ -54,10 +54,10 @@ public class ApiService : IApiService
         return json;
     }
 
-    public async ValueTask<bool> PostAsync<T>(string endpoint, T json)
+    public async ValueTask<string> PostAsync<T>(string endpoint, T json)
     {
         var response = await _client.PostAsJsonAsync(endpoint, json);
 
-        return response.IsSuccessStatusCode;
+        return await response.Content.ReadAsStringAsync();
     }
 }

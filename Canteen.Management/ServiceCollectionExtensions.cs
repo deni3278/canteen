@@ -33,5 +33,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<MainWindowViewModel>();
         services.AddScoped<MenuViewModel>();
         services.AddTransient<AddItemViewModel>();
+        services.AddTransient<EditEmployeeViewModel>();
     }
 }

@@ -14,6 +14,7 @@ public class CanteenProfile : Profile
             .ForMember(dto => dto.Items, opt
                 => opt.MapFrom(model => model.Items.Select(item => item.ItemId))).ReverseMap();
         CreateMap<EmployeeLunch, EmployeeLunchDto>().ReverseMap();
+        CreateMap<EmployeeCake, EmployeeCakeDto>().ReverseMap();
         CreateMap<Item, ItemDto>().ReverseMap();
         CreateMap<LunchCancellation, LunchCancellationDto>().ReverseMap();
         CreateMap<LunchMenu, LunchMenuDto>().ReverseMap();

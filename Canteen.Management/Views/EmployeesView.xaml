@@ -28,6 +28,7 @@
             </Grid.RowDefinitions>
             
             <ListView ItemsSource="{Binding Path=Employees}"
+                      SelectedItem="{Binding Path=SelectedEmployee}"
                       SelectionMode="Single"
                       AlternationCount="2"
                       Style="{StaticResource ResourceKey=ListView}"
@@ -58,28 +59,13 @@
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Refresh"
-                                  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                                   AncestorType={x:Type Type=UserControl},
-                                                                                   AncestorLevel=1},
-                                                    Path=DataContext.RefreshCommand}"/>
+                                  Click="Refresh_OnClick" />
                     </ContextMenu>
                 </ListView.ContextMenu>
                 
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource ResourceKey=ListViewItem}"
-                           TargetType="ListViewItem">
-                        <Setter Property="ContextMenu">
-                            <Setter.Value>
-                                <ContextMenu>
-                                    <MenuItem Header="Refresh"
-                                              Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                                               AncestorType={x:Type Type=UserControl},
-                                                                                               AncestorLevel=1},
-                                                                Path=DataContext.RefreshCommand}"/>
-                                </ContextMenu>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
+                           TargetType="ListViewItem" />
                 </ListView.ItemContainerStyle>
 
                 <ListView.View>
@@ -130,6 +116,9 @@
                             </Setter>
                         </Style>
                     </StackPanel.Resources>
+                    <Button Content="Edit"
+                            Click="EditEmployee_OnClick"
+                            IsEnabled="{Binding Path=HasSelectedItem}" />
 
                     <Button Content="Refresh"
                             Command="{Binding RefreshCommand}" />

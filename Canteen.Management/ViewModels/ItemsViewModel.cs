@@ -13,7 +13,7 @@ namespace Canteen.Management.ViewModels;
 public class ItemsViewModel : ObservableObject
 {
     private readonly IApiService _api;
-    
+
     private double _idColumnWidth;
     private double _nameColumnWidth;
     private double _priceColumnWidth;
@@ -21,7 +21,6 @@ public class ItemsViewModel : ObservableObject
     private CategoryItemsDto _selectedCategory;
 
     public ObservableCollection<CategoryItemsDto> Categories { get; } = new();
-    public IAsyncRelayCommand AddCommand { get; }
     public IAsyncRelayCommand RefreshCommand { get; }
     public IRelayCommand<double> ResizeCommand { get; }
     public IAsyncRelayCommand RemoveCommand { get; }
@@ -64,7 +63,6 @@ public class ItemsViewModel : ObservableObject
     {
         _api = api;
 
-        AddCommand = new AsyncRelayCommand(async () => await Task.Run(() => MessageBox.Show("\"Add\" hasn't been implemented yet.", "Canteen Management", MessageBoxButton.OK, MessageBoxImage.Information)));
         RefreshCommand = new AsyncRelayCommand(Refresh);
         ResizeCommand = new RelayCommand<double>(Resize);
         RemoveCommand = new AsyncRelayCommand(async () => await _api.PostAsync("items/delete", SelectedItem), () => SelectedItem != null);
@@ -80,11 +78,10 @@ public class ItemsViewModel : ObservableObject
     {
         var categoryItems = await _api.GetAsync<IEnumerable<CategoryItemsDto>>("categories?includeItems=true");
 
-        if (categoryItems.SequenceEqual(Categories, new CategoryItemsEqualityComparer()))
-            return;
+        if (categoryItems.SequenceEqual(Categories, new CategoryItemsEqualityComparer())) return;
 
         var selectedCategory = _selectedCategory;
-        
+
         Categories.Clear();
 
         foreach (var category in categoryItems)
@@ -96,8 +93,7 @@ public class ItemsViewModel : ObservableObject
 
         selectedCategory = Categories.FirstOrDefault(category => category.Name.Equals(selectedCategory.Name));
 
-        if (selectedCategory != null)
-            SelectedCategory = selectedCategory;
+        if (selectedCategory != null) SelectedCategory = selectedCategory;
     }
 
     private void Resize(double viewWidth)
@@ -108,8 +104,8 @@ public class ItemsViewModel : ObservableObject
         const double nameColumn = 0.60;
         const double priceColumn = 0.20;
 
-        IdColumnWidth = actualWidth * idColumn;
-        NameColumnWidth = actualWidth * nameColumn;
+        IdColumnWidth = actualWidth    * idColumn;
+        NameColumnWidth = actualWidth  * nameColumn;
         PriceColumnWidth = actualWidth * priceColumn;
     }
 }

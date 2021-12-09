@@ -15,11 +15,30 @@ public class EmployeesViewModel : ObservableObject
     private double _idColumnWidth;
     private double _firstNameColumnWidth;
     private double _lastNameColumnWidth;
+    private EmployeeDto _selectedEmployee;
+    private bool _hasSelectedItem;
 
     public ObservableCollection<EmployeeDto> Employees { get; } = new();
     public IAsyncRelayCommand RefreshCommand { get; }
+    public IAsyncRelayCommand EditCommand { get; }
     public IRelayCommand<double> ResizeCommand { get; }
-    
+
+    public EmployeeDto SelectedEmployee
+    {
+        get => _selectedEmployee;
+        set
+        {
+            SetProperty(ref _selectedEmployee, value);
+            HasSelectedItem = SelectedEmployee != null;
+        }
+    }
+
+    public bool HasSelectedItem
+    {
+        get => _hasSelectedItem;
+        set => SetProperty(ref _hasSelectedItem, value);
+    }
+
     public double IdColumnWidth
     {
         get => _idColumnWidth;
@@ -47,7 +66,7 @@ public class EmployeesViewModel : ObservableObject
     }
 
     private async Task Refresh()
-    {
+    {   
         var employees = await _api.GetAsync<IEnumerable<EmployeeDto>>("employees");
         
         Employees.Clear();
@@ -56,6 +75,11 @@ public class EmployeesViewModel : ObservableObject
         {
             Employees.Add(employee);
         }
+    }
+
+    public async Task EditEmployee(EmployeeLunchDto employeeLunch)
+    {
+        await _api.PostAsync("lunchmenus/employeelunch", employeeLunch);
     }
 
     private void Resize(double viewWidth)

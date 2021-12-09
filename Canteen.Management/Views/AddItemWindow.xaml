@@ -83,7 +83,7 @@
                    Grid.Row="6" />
 
             <TextBox Text="{Binding Path=Path, ValidatesOnNotifyDataErrors=True}"
-                     IsReadOnly="True"
+                     IsEnabled="False"
                      Grid.Column="1"
                      Grid.Row="6" />
 
