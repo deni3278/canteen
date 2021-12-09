@@ -10,8 +10,91 @@
              d:DesignHeight="768"
              Padding="20">
     <Grid>
-        <Label Content="Dashboard View"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center" />
+        <UniformGrid Columns="2"
+                     Rows="2"
+                     Background="#f6f6f6">
+            <UniformGrid.Effect>
+                <DropShadowEffect Direction="270" Opacity="0.3" />
+            </UniformGrid.Effect>
+            
+            <UniformGrid.Resources>
+                <Style TargetType="Grid">
+                    <Setter Property="Margin" Value="16" />
+                    
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Direction="270" Opacity="0.3" />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                
+                <Style TargetType="Label">
+                    <Setter Property="FontSize" Value="24" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+            </UniformGrid.Resources>
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                
+                <Image Source="../Images/placeholder.png" Grid.Row="0" />
+                
+                <Grid Background="#cccccc"
+                      Margin="0"
+                      Grid.Row="1">
+                    <Label Content="Visitors for today" />
+                </Grid>
+            </Grid>
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                
+                <Image Source="../Images/placeholder.png" Grid.Row="0" />
+                
+                <Grid Background="#cccccc"
+                      Margin="0"
+                      Grid.Row="1">
+                    <Label Content="Visitors for the week" />
+                </Grid>
+            </Grid>
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                
+                <Image Source="../Images/placeholder.png" Grid.Row="0" />
+                
+                <Grid Background="#cccccc"
+                      Margin="0"
+                      Grid.Row="1">
+                    <Label Content="Tomorrow's dish: ?" />
+                </Grid>
+            </Grid>
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                
+                <Image Source="../Images/placeholder.png" Grid.Row="0" />
+                
+                <Grid Background="#cccccc"
+                      Margin="0"
+                      Grid.Row="1">
+                    <Label Content="Cake Day: ?" />
+                </Grid>
+            </Grid>
+        </UniformGrid>
     </Grid>
 </UserControl>
