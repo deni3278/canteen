@@ -21,13 +21,15 @@ public class ItemsController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetItemsAsync()
+    [HttpGet,Route("{active:bool?}")]
+    public async Task<IActionResult> GetItemsAsync(bool active)
     {
-        IEnumerable<Item> items = await _context.Items
-            .Include(item => item.Category)
-            .Where(item => item.Active == true)
-            .ToListAsync();
+        IEnumerable<Item> items = _context.Items
+            .Include(item => item.Category);
+        
+        if (active)
+            items = items.Where(item => item.Active).ToList();
+        
         var itemDtos = _mapper.Map<IEnumerable<ItemDto>>(items);
         
         if (itemDtos == null)
