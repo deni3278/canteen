@@ -42,7 +42,8 @@
                     <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
                 
-                <Image Source="../Images/placeholder.png" Grid.Row="0" />
+                <Image Source=""
+                       Grid.Row="0" />
                 
                 <Grid Background="#cccccc"
                       Margin="0"
@@ -57,7 +58,8 @@
                     <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
                 
-                <Image Source="../Images/placeholder.png" Grid.Row="0" />
+                <Image Source=""
+                       Grid.Row="0" />
                 
                 <Grid Background="#cccccc"
                       Margin="0"
@@ -72,7 +74,8 @@
                     <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
                 
-                <Image Source="../Images/placeholder.png" Grid.Row="0" />
+                <Image Source=""
+                       Grid.Row="0" />
                 
                 <Grid Background="#cccccc"
                       Margin="0"
@@ -87,7 +90,8 @@
                     <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
                 
-                <Image Source="../Images/placeholder.png" Grid.Row="0" />
+                <Image Source=""
+                       Grid.Row="0" />
                 
                 <Grid Background="#cccccc"
                       Margin="0"
