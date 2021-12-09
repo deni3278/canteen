@@ -24,7 +24,10 @@ public class ItemsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetItemsAsync()
     {
-        IEnumerable<Item> items = await _context.Items.Include(item => item.Category).ToListAsync();
+        IEnumerable<Item> items = await _context.Items
+            .Include(item => item.Category)
+            .Where(item => item.Active == true)
+            .ToListAsync();
         var itemDtos = _mapper.Map<IEnumerable<ItemDto>>(items);
         
         if (itemDtos == null)
@@ -58,7 +61,7 @@ public class ItemsController : ControllerBase
         if (item == null)
             return BadRequest();
 
-        _context.Items.Remove(item);
+        item.Active = false;
         await _context.SaveChangesAsync();
         
         return Ok();

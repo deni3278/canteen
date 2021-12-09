@@ -22,6 +22,8 @@ namespace Canteen.DataAccess
         public string Name { get; set; } = null!;
         public decimal Price { get; set; }
         public byte[] Image { get; set; } = null!;
+        
+        public bool Active { get; set; }
 
         public virtual Category Category { get; set; } = null!;
         public virtual ICollection<EmployeeCake> EmployeeCakes { get; set; }

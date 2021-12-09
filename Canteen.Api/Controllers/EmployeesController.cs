@@ -66,7 +66,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPost,Route("favourites")]
-    public async Task<IActionResult> AddFavouriteItemAsync(int itemId)
+    public async Task<IActionResult> addFavouriteItem(int itemId)
     {
         var item = await _context.Items.FindAsync(itemId);
 
@@ -106,9 +106,24 @@ public class EmployeesController : ControllerBase
 
         
         employee.Items.Remove(item);
+        
 
         await _context.SaveChangesAsync();
 
         return Ok();
     }
+    
+    [HttpPost,Route("cakes")]
+    public async Task<IActionResult> addEmployeeCakeAsync(EmployeeCakeDto employeeCakeDto)
+    {
+
+        var employeeCake = _mapper.Map<EmployeeCake>(employeeCakeDto);
+        await _context.EmployeeCakes.AddAsync(employeeCake);
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+    
+    
 }

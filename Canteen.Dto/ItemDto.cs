@@ -8,4 +8,5 @@ public class ItemDto
     public decimal Price { get; set; }
     public byte[] Image { get; set; } = null!;
     public CategoryDto Category { get; set; } = null!;
+    public bool Active { get; set; }
 }

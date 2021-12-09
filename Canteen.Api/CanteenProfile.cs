@@ -20,5 +20,6 @@ public class CanteenProfile : Profile
         CreateMap<LunchMenu, LunchMenuDto>().ReverseMap();
         CreateMap<Order, OrderDto>().ReverseMap();
         CreateMap<OrderItem, OrderItemDto>().ReverseMap();
+        CreateMap<EmployeeCake, EmployeeCakeDto>().ReverseMap();
     }
 }

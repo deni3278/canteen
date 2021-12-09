@@ -117,6 +117,8 @@ public partial class CanteenContext : DbContext
 
             entity.Property(e => e.Price).HasColumnType("money");
 
+            entity.Property(e => e.Active).HasColumnType("bit");
+
             entity.HasOne(d => d.Category)
                 .WithMany(p => p.Items)
                 .HasForeignKey(d => d.CategoryId)
