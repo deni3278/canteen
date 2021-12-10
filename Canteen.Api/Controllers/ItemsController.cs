@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections;
+using AutoMapper;
 using Canteen.DataAccess;
 using Canteen.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -22,20 +23,44 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet,Route("{active:bool?}")]
-    public async Task<IActionResult> GetItemsAsync(bool active)
+    public async Task<IActionResult> GetItemsAsync(bool active,[FromQuery] bool withImage = true)
     {
-        IEnumerable<Item> items = _context.Items
+        
+        var items = _context.Items
             .Include(item => item.Category);
+
+
+        IEnumerable itemResult;
         
         if (active)
-            items = items.Where(item => item.Active).ToList();
+            itemResult = items.Where(item => item.Active);
+        else
+        {
+            itemResult = items;
+        }
+
+        if (!withImage)
+            itemResult = await items.Select(item => new ItemWithoutImageDto
+            {
+                Active = item.Active,
+                Category = _mapper.Map<CategoryDto>(item.Category),
+                Name = item.Name,
+                Price = item.Price,
+                CategoryId = item.CategoryId,
+                ItemId = item.ItemId
+            }).ToListAsync();
+
+        else
+        {
+            itemResult = await items.ToListAsync();
+            itemResult = _mapper.Map<IEnumerable<ItemDto>>(itemResult);
+        }
         
-        var itemDtos = _mapper.Map<IEnumerable<ItemDto>>(items);
         
-        if (itemDtos == null)
+        if (itemResult == null)
             return StatusCode(StatusCodes.Status500InternalServerError);
         
-        return Ok(itemDtos);
+        return Ok(itemResult);
     }
 
     [HttpGet("category/{categoryId:int}")]
@@ -86,4 +111,29 @@ public class ItemsController : ControllerBase
         
         return Ok();
     }
+    
+    [HttpGet,Route("{id}/image")]
+    public async Task<ActionResult<byte[]>> GetItemImageAsync(int id)
+    {
+        var item = await _context.Items.FindAsync(id);
+
+        if (item == null)
+            return NotFound();
+
+        return File(item.Image, "image/png");
+    }
+    
+    [HttpPost,Route("images/get")]
+    public async Task<ActionResult<List<byte[]>>> GetItemImagesAsync([FromBody] IEnumerable<int> ids)
+    {
+        var items = await _context.Items.Where(item => ids.Contains(item.ItemId)).ToListAsync();
+
+        if (items == null)
+            return NotFound();
+
+        var images = items.Select(item => item.Image).ToList();
+        
+        return Ok(images);
+    }
+  
 }
