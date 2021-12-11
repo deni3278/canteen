@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Canteen.DataAccess;
 using Canteen.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -25,8 +26,7 @@ public class EmployeesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetEmployeesAsync()
     {
-        IEnumerable<Employee> employees = await _context.Employees.ToListAsync();
-        var employeeDtos = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+        var employeeDtos = await _context.Employees.ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider).ToListAsync();
 
         if (employeeDtos == null)
             return StatusCode(StatusCodes.Status500InternalServerError);
@@ -42,30 +42,31 @@ public class EmployeesController : ControllerBase
         if (!int.TryParse(employeeIdClaim.Value, out var employeeId))
             return BadRequest();
 
-        var employee = await _context.Employees
+        var employeeDto = await _context.Employees
             .Include(employee => employee.Items)
-            .FirstOrDefaultAsync(employee1 => employee1.EmployeeId == employeeId);
+            .ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(employee => employee.EmployeeId == employeeId);
 
-        if (employee == null)
+        if (employeeDto == null)
             return NotFound();
 
-        var employeeDto = _mapper.Map<EmployeeDto>(employee);
         return Ok(employeeDto);
     }
 
     [HttpGet("cake/{id:int}")]
     public async Task<IActionResult> GetEmployeeCakeAsync(int id)
     {
-        var employeeCake = await _context.EmployeeCakes.Where(empCake => empCake.EmployeeId == id && 
-                                                                         empCake.Year == ISOWeek.GetYear(DateTime.Now) && 
-                                                                         empCake.Number == ISOWeek.GetWeekOfYear(DateTime.Now))
-                                                       .FirstAsync();
-        var employeeCakeDto = _mapper.Map<EmployeeCakeDto>(employeeCake);
+        var currenWeek = (short)ISOWeek.GetWeekOfYear(DateTime.Now);
+        var currentYear = (short)DateTime.Now.Year;
+        var employeeCakeDto = await _context.EmployeeCakes
+            .Where(empCake => empCake.EmployeeId == id && empCake.Year == currentYear && empCake.Number == currenWeek)
+            .ProjectTo<EmployeeCakeDto>(_mapper.ConfigurationProvider)
+            .FirstAsync();
 
         return Ok(employeeCakeDto);
     }
 
-    [HttpPost,Route("favourites")]
+    [HttpPost, Route("favourites")]
     public async Task<IActionResult> addFavouriteItem(int itemId)
     {
         var item = await _context.Items.FindAsync(itemId);
@@ -86,8 +87,8 @@ public class EmployeesController : ControllerBase
 
         return Ok();
     }
-    
-    [HttpDelete,Route("favourites")]
+
+    [HttpDelete, Route("favourites")]
     public async Task<IActionResult> RemoveFavouriteItemAsync(int itemId)
     {
         var item = await _context.Items.FindAsync(itemId);
@@ -104,19 +105,16 @@ public class EmployeesController : ControllerBase
         if (employee == null)
             return NotFound();
 
-        
         employee.Items.Remove(item);
-        
 
         await _context.SaveChangesAsync();
 
         return Ok();
     }
-    
-    [HttpPost,Route("cakes")]
+
+    [HttpPost, Route("cakes")]
     public async Task<IActionResult> addEmployeeCakeAsync(EmployeeCakeDto employeeCakeDto)
     {
-
         var employeeCake = _mapper.Map<EmployeeCake>(employeeCakeDto);
         await _context.EmployeeCakes.AddAsync(employeeCake);
 
@@ -124,6 +122,4 @@ public class EmployeesController : ControllerBase
 
         return Ok();
     }
-    
-    
 }

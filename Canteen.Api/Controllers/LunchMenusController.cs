@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Canteen.DataAccess;
 using Canteen.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -28,10 +29,10 @@ public class LunchMenusController : ControllerBase
         var currentYear = (short) DateTime.Now.Year;
         var currentWeek = (short) ISOWeek.GetWeekOfYear(DateTime.Now);
 
-        var lunchMenu = await _context.LunchMenus
+        var lunchMenuDto = await _context.LunchMenus
             .Include(menu => menu.LunchCancellations)
+            .ProjectTo<LunchMenuDto>(_mapper.ConfigurationProvider)
             .FirstAsync(menu => menu.Number == currentWeek && menu.Year == currentYear);
-        var lunchMenuDto = _mapper.Map<LunchMenuDto>(lunchMenu);
 
         if (lunchMenuDto == null)
             return StatusCode(StatusCodes.Status500InternalServerError);
@@ -63,12 +64,13 @@ public class LunchMenusController : ControllerBase
     [HttpGet,Route("employeeLunch/{employeeId}/{lunchMenuId}")]
     public async Task<ActionResult<EmployeeLunchDto>> GetEmployeeLunchAsync(int lunchMenuId, int employeeId)
     {
-        var employeeLunch = await _context.EmployeeLunches.FindAsync(lunchMenuId, employeeId);
-
-        if (employeeLunch == null)
+        var employeeLunchDto = await _context.EmployeeLunches.ProjectTo<EmployeeLunchDto>(_mapper.ConfigurationProvider)
+            .FirstAsync(dto => dto.LunchMenuId == lunchMenuId && dto.EmployeeId == employeeId);
+        
+        if (employeeLunchDto == null)
             return NotFound();
 
-        return Ok(_mapper.Map<EmployeeLunchDto>(employeeLunch));
+        return Ok(employeeLunchDto);
     }
     
 }

@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Canteen.DataAccess;
 using Canteen.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -22,29 +23,28 @@ public class OrdersController : ControllerBase
         _mapper = mapper;
         _context = context;
     }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrderAsync(int id)
     {
         var order = await _context.Orders.FindAsync(id);
-        
+
         if (order == null)
             return NotFound();
 
         _context.Orders.Remove(order);
         await _context.SaveChangesAsync();
-        
+
         return Ok();
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync()
     {
-        IEnumerable<Order> orders = await _context.Orders.ToListAsync();
-        var orderDtos = _mapper.Map<IEnumerable<OrderDto>>(orders);
-        
+        var orderDtos = await _context.Orders.ProjectTo<OrderDto>(_mapper.ConfigurationProvider).ToListAsync();
         return Ok(orderDtos);
     }
-    
+
     [HttpPost]
     public async Task<ActionResult<OrderDto>> PostOrderAsync([FromBody] JsonElement json)
     {
@@ -64,17 +64,18 @@ public class OrdersController : ControllerBase
         var order = new Order
         {
             EmployeeId = employeeId,
-            Year = (short) DateTime.Now.Year,
-            Number = (short) ISOWeek.GetWeekOfYear(DateTime.Today)
+            Year = (short)DateTime.Now.Year,
+            Number = (short)ISOWeek.GetWeekOfYear(DateTime.Today)
         };
-        
+
         await _context.Orders.AddAsync(order).AsTask();
         await _context.SaveChangesAsync();
-        
-        
-        var itemsByCount = items.GroupBy(itemId => itemId).ToDictionary(grouping => grouping.Key, grouping => grouping.Count());
+
+
+        var itemsByCount = items.GroupBy(itemId => itemId)
+            .ToDictionary(grouping => grouping.Key, grouping => grouping.Count());
         var orderItems = new List<OrderItem>();
-        
+
         foreach (var (itemId, count) in itemsByCount)
         {
             orderItems.Add(new OrderItem
@@ -88,6 +89,6 @@ public class OrdersController : ControllerBase
         await _context.OrderItems.AddRangeAsync(orderItems);
         await _context.SaveChangesAsync();
 
-        return _mapper.Map<Order,OrderDto>(order);
+        return _mapper.Map<Order, OrderDto>(order);
     }
 }
