@@ -16,13 +16,18 @@ public static class ServiceCollectionExtensions
     public static void AddHttpClient(this IServiceCollection services)
     {
         services.AddScoped<AuthenticationDelegatingHandler>();
+
         services.AddHttpClient<IApiService, ApiService>(client =>
-        {
-            client.BaseAddress = new UriBuilder("https", "localhost", 7106).Uri;
-            client.Timeout = TimeSpan.FromSeconds(10);
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }).AddHttpMessageHandler<AuthenticationDelegatingHandler>();
+                {
+                    client.BaseAddress = new UriBuilder("https",
+                                                        "localhost",
+                                                        7106).Uri;
+
+                    client.Timeout = TimeSpan.FromSeconds(10);
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                })
+                .AddHttpMessageHandler<AuthenticationDelegatingHandler>();
     }
 
     public static void AddViewModels(this IServiceCollection services)

@@ -18,6 +18,14 @@ public class EmployeesViewModel : ObservableObject
     private EmployeeDto _selectedEmployee = null!;
     private bool _hasSelectedItem;
 
+    public EmployeesViewModel(IApiService api)
+    {
+        _api = api;
+
+        RefreshCommand = new AsyncRelayCommand(Refresh);
+        ResizeCommand = new RelayCommand<double>(Resize);
+    }
+
     public ObservableCollection<EmployeeDto> Employees { get; } = new();
     public IAsyncRelayCommand RefreshCommand { get; }
     public IAsyncRelayCommand EditCommand { get; } = null!;
@@ -28,7 +36,9 @@ public class EmployeesViewModel : ObservableObject
         get => _selectedEmployee;
         set
         {
-            SetProperty(ref _selectedEmployee, value);
+            SetProperty(ref _selectedEmployee,
+                        value);
+
             HasSelectedItem = SelectedEmployee != null!;
         }
     }
@@ -36,33 +46,33 @@ public class EmployeesViewModel : ObservableObject
     public bool HasSelectedItem
     {
         get => _hasSelectedItem;
-        set => SetProperty(ref _hasSelectedItem, value);
+        set =>
+            SetProperty(ref _hasSelectedItem,
+                        value);
     }
 
     public double IdColumnWidth
     {
         get => _idColumnWidth;
-        set => SetProperty(ref _idColumnWidth, value);
+        set =>
+            SetProperty(ref _idColumnWidth,
+                        value);
     }
 
     public double FirstNameColumnWidth
     {
         get => _firstNameColumnWidth;
-        set => SetProperty(ref _firstNameColumnWidth, value);
+        set =>
+            SetProperty(ref _firstNameColumnWidth,
+                        value);
     }
 
     public double LastNameColumnWidth
     {
         get => _lastNameColumnWidth;
-        set => SetProperty(ref _lastNameColumnWidth, value);
-    }
-
-    public EmployeesViewModel(IApiService api)
-    {
-        _api = api;
-
-        RefreshCommand = new AsyncRelayCommand(Refresh);
-        ResizeCommand = new RelayCommand<double>(Resize);
+        set =>
+            SetProperty(ref _lastNameColumnWidth,
+                        value);
     }
 
     private async Task Refresh()
@@ -79,7 +89,8 @@ public class EmployeesViewModel : ObservableObject
 
     public async Task EditEmployee(EmployeeLunchDto employeeLunch)
     {
-        await _api.PostAsync("lunchmenus/employeelunch", employeeLunch);
+        await _api.PostAsync("lunchmenus/employeelunch",
+                             employeeLunch);
     }
 
     private void Resize(double viewWidth)

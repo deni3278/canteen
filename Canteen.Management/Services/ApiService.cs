@@ -16,24 +16,31 @@ public class ApiService : IApiService
     {
         _client = client;
 
-        ServicePointManager.ServerCertificateValidationCallback += (_, _, _, _) => true;
+        ServicePointManager.ServerCertificateValidationCallback += (_,
+                                                                    _,
+                                                                    _,
+                                                                    _) => true;
     }
 
     public async ValueTask<bool> LoginAsync()
     {
-        var response = await _client.PostAsJsonAsync("login", new PasswordDto {Password = ""});
+        var response = await _client.PostAsJsonAsync("login",
+                                                     new PasswordDto
+                                                     {
+                                                         Password = ""
+                                                     });
 
         response.EnsureSuccessStatusCode();
 
         var json = await response.Content.ReadFromJsonAsync<JsonElement>();
 
-        if (!json.TryGetProperty("token", out var tokenProperty))
+        if (!json.TryGetProperty("token",
+                                 out var tokenProperty))
             return false;
 
         var token = tokenProperty.GetString();
 
-        if (token == null)
-            return false;
+        if (token == null) return false;
 
         AuthenticationDelegatingHandler.Token = token;
 
@@ -48,15 +55,16 @@ public class ApiService : IApiService
 
         var json = await response.Content.ReadFromJsonAsync<T>();
 
-        if (json == null)
-            throw new JsonException("Cannot deserialize to the specified type");
+        if (json == null) throw new JsonException("Cannot deserialize to the specified type");
 
         return json;
     }
 
-    public async ValueTask<string> PostAsync<T>(string endpoint, T json)
+    public async ValueTask<string> PostAsync<T>(string endpoint,
+                                                T json)
     {
-        var response = await _client.PostAsJsonAsync(endpoint, json);
+        var response = await _client.PostAsJsonAsync(endpoint,
+                                                     json);
 
         return await response.Content.ReadAsStringAsync();
     }

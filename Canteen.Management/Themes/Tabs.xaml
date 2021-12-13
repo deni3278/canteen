@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="TabItem"
            TargetType="TabItem">
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize"
+                Value="20" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -18,13 +19,20 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="FontWeight" Value="Bold" />
-                            <Setter TargetName="Panel" Property="Background" Value="#c7f2ce" />
+                        <Trigger Property="IsSelected"
+                                 Value="True">
+                            <Setter Property="FontWeight"
+                                    Value="Bold" />
+                            <Setter TargetName="Panel"
+                                    Property="Background"
+                                    Value="#c7f2ce" />
                         </Trigger>
 
-                        <Trigger Property="IsSelected" Value="False">
-                            <Setter TargetName="Panel" Property="Background" Value="#c2e0c7" />
+                        <Trigger Property="IsSelected"
+                                 Value="False">
+                            <Setter TargetName="Panel"
+                                    Property="Background"
+                                    Value="#c2e0c7" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

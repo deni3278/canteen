@@ -14,7 +14,8 @@ public partial class EmployeesView : UserControl
         DataContext = App.Current.Services.GetService<EmployeesViewModel>();
     }
 
-    private async void EditEmployee_OnClick(object sender, RoutedEventArgs e)
+    private async void EditEmployee_OnClick(object sender,
+                                            RoutedEventArgs e)
     {
         var window = new EditEmployeeWindow
         {
@@ -31,7 +32,8 @@ public partial class EmployeesView : UserControl
         await employeesViewModel.EditEmployee(editEmployeeViewModel.EmployeeLunch);
     }
 
-    private async void Refresh_OnClick(object sender, RoutedEventArgs e)
+    private async void Refresh_OnClick(object sender,
+                                       RoutedEventArgs e)
     {
         var employeesViewModel = DataContext as EmployeesViewModel;
         await employeesViewModel!.RefreshCommand.ExecuteAsync(null);

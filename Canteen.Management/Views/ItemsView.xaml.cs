@@ -15,7 +15,8 @@ public partial class ItemsView : UserControl
         DataContext = App.Current.Services.GetService<ItemsViewModel>();
     }
 
-    private async void AddItem_OnClick(object sender, RoutedEventArgs e)
+    private async void AddItem_OnClick(object sender,
+                                       RoutedEventArgs e)
     {
         var window = new AddItemWindow
         {
@@ -41,13 +42,15 @@ public partial class ItemsView : UserControl
         await itemsViewModel.AddItem(addItemViewModel!.Item);
     }
 
-    private async void Refresh_OnClick(object sender, RoutedEventArgs e)
+    private async void Refresh_OnClick(object sender,
+                                       RoutedEventArgs e)
     {
         var itemsViewModel = DataContext as ItemsViewModel;
         await itemsViewModel!.RefreshCommand.ExecuteAsync(null);
     }
 
-    private async void RemoveItem_OnClick(object sender, RoutedEventArgs e)
+    private async void RemoveItem_OnClick(object sender,
+                                          RoutedEventArgs e)
     {
         var itemsViewModel = DataContext as ItemsViewModel;
         await itemsViewModel!.RemoveCommand.ExecuteAsync(null);

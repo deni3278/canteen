@@ -8,17 +8,6 @@ public class MainWindowViewModel : ObservableObject
 {
     private ObservableObject _currentViewModel;
 
-    public ObservableObject CurrentViewModel
-    {
-        get => _currentViewModel;
-        set => SetProperty(ref _currentViewModel, value);
-    }
-
-    public IRelayCommand DashboardCommand { get; }
-    public IRelayCommand EmployeesCommand { get; }
-    public IRelayCommand ItemsCommand { get; }
-    public IRelayCommand MenuCommand { get; }
-
     public MainWindowViewModel()
     {
         var services = App.Current.Services;
@@ -30,4 +19,17 @@ public class MainWindowViewModel : ObservableObject
         ItemsCommand = new RelayCommand(() => CurrentViewModel = services.GetRequiredService<ItemsViewModel>());
         MenuCommand = new RelayCommand(() => CurrentViewModel = services.GetRequiredService<MenuViewModel>());
     }
+
+    public ObservableObject CurrentViewModel
+    {
+        get => _currentViewModel;
+        set =>
+            SetProperty(ref _currentViewModel,
+                        value);
+    }
+
+    public IRelayCommand DashboardCommand { get; }
+    public IRelayCommand EmployeesCommand { get; }
+    public IRelayCommand ItemsCommand { get; }
+    public IRelayCommand MenuCommand { get; }
 }

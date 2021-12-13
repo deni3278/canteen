@@ -14,7 +14,8 @@ public partial class AddItemWindow : Window
         DataContext = App.Current.Services.GetService<AddItemViewModel>();
     }
 
-    private void OpenFileDialog_OnClick(object sender, RoutedEventArgs e)
+    private void OpenFileDialog_OnClick(object sender,
+                                        RoutedEventArgs e)
     {
         var openFileDialog = new OpenFileDialog
         {
@@ -31,12 +32,14 @@ public partial class AddItemWindow : Window
         (DataContext as AddItemViewModel)!.Path = path;
     }
 
-    private void SetDialogResultFalse_OnClick(object sender, RoutedEventArgs e)
+    private void SetDialogResultFalse_OnClick(object sender,
+                                              RoutedEventArgs e)
     {
         DialogResult = false;
     }
 
-    private void SetDialogResultTrue_OnClick(object sender, RoutedEventArgs e)
+    private void SetDialogResultTrue_OnClick(object sender,
+                                             RoutedEventArgs e)
     {
         DialogResult = true;
     }

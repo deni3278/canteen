@@ -17,6 +17,11 @@ public class EditEmployeeViewModel : ObservableValidator
     private bool _thursdayChecked;
     private bool _fridayChecked;
 
+    public EditEmployeeViewModel(IApiService api)
+    {
+        _api = api;
+    }
+
     public EmployeeDto Employee { get; set; } = null!;
     public LunchMenuDto LunchMenu { get; set; } = null!;
     public EmployeeLunchDto EmployeeLunch { get; set; } = null!;
@@ -31,7 +36,9 @@ public class EditEmployeeViewModel : ObservableValidator
         get => _mondayChecked;
         set
         {
-            SetProperty(ref _mondayChecked, value);
+            SetProperty(ref _mondayChecked,
+                        value);
+
             EmployeeLunch.Monday = value;
         }
     }
@@ -41,7 +48,9 @@ public class EditEmployeeViewModel : ObservableValidator
         get => _tuesdayChecked;
         set
         {
-            SetProperty(ref _tuesdayChecked, value);
+            SetProperty(ref _tuesdayChecked,
+                        value);
+
             EmployeeLunch.Tuesday = value;
         }
     }
@@ -51,7 +60,9 @@ public class EditEmployeeViewModel : ObservableValidator
         get => _wednesdayChecked;
         set
         {
-            SetProperty(ref _wednesdayChecked, value);
+            SetProperty(ref _wednesdayChecked,
+                        value);
+
             EmployeeLunch.Wednesday = value;
         }
     }
@@ -61,7 +72,9 @@ public class EditEmployeeViewModel : ObservableValidator
         get => _thursdayChecked;
         set
         {
-            SetProperty(ref _thursdayChecked, value);
+            SetProperty(ref _thursdayChecked,
+                        value);
+
             EmployeeLunch.Thursday = value;
         }
     }
@@ -71,14 +84,11 @@ public class EditEmployeeViewModel : ObservableValidator
         get => _fridayChecked;
         set
         {
-            SetProperty(ref _fridayChecked, value);
+            SetProperty(ref _fridayChecked,
+                        value);
+
             EmployeeLunch.Friday = value;
         }
-    }
-
-    public EditEmployeeViewModel(IApiService api)
-    {
-        _api = api;
     }
 
     public async Task Initialize(EmployeeDto employee)

@@ -20,6 +20,18 @@ public class ItemsViewModel : ObservableObject
     private ItemDto _selectedItem = null!;
     private CategoryItemsDto _selectedCategory = null!;
 
+    public ItemsViewModel(IApiService api)
+    {
+        _api = api;
+
+        RefreshCommand = new AsyncRelayCommand(Refresh);
+        ResizeCommand = new RelayCommand<double>(Resize);
+
+        RemoveCommand = new AsyncRelayCommand(async () => await _api.PostAsync("items/delete",
+                                                                               SelectedItem),
+                                              () => SelectedItem != null!);
+    }
+
     public ObservableCollection<CategoryItemsDto> Categories { get; } = new();
     public IAsyncRelayCommand RefreshCommand { get; }
     public IRelayCommand<double> ResizeCommand { get; }
@@ -28,19 +40,25 @@ public class ItemsViewModel : ObservableObject
     public double IdColumnWidth
     {
         get => _idColumnWidth;
-        set => SetProperty(ref _idColumnWidth, value);
+        set =>
+            SetProperty(ref _idColumnWidth,
+                        value);
     }
 
     public double NameColumnWidth
     {
         get => _nameColumnWidth;
-        set => SetProperty(ref _nameColumnWidth, value);
+        set =>
+            SetProperty(ref _nameColumnWidth,
+                        value);
     }
 
     public double PriceColumnWidth
     {
         get => _priceColumnWidth;
-        set => SetProperty(ref _priceColumnWidth, value);
+        set =>
+            SetProperty(ref _priceColumnWidth,
+                        value);
     }
 
     public ItemDto SelectedItem
@@ -48,7 +66,9 @@ public class ItemsViewModel : ObservableObject
         get => _selectedItem;
         set
         {
-            SetProperty(ref _selectedItem, value);
+            SetProperty(ref _selectedItem,
+                        value);
+
             RemoveCommand.NotifyCanExecuteChanged();
         }
     }
@@ -56,21 +76,16 @@ public class ItemsViewModel : ObservableObject
     public CategoryItemsDto SelectedCategory
     {
         get => _selectedCategory;
-        set => SetProperty(ref _selectedCategory, value);
-    }
-
-    public ItemsViewModel(IApiService api)
-    {
-        _api = api;
-
-        RefreshCommand = new AsyncRelayCommand(Refresh);
-        ResizeCommand = new RelayCommand<double>(Resize);
-        RemoveCommand = new AsyncRelayCommand(async () => await _api.PostAsync("items/delete", SelectedItem), () => SelectedItem != null!);
+        set =>
+            SetProperty(ref _selectedCategory,
+                        value);
     }
 
     public async Task AddItem(ItemDto item)
     {
-        await _api.PostAsync("items/create", item);
+        await _api.PostAsync("items/create",
+                             item);
+
         await Refresh();
     }
 
@@ -80,7 +95,9 @@ public class ItemsViewModel : ObservableObject
 
         var categoryItemsDtos = categoryItems as CategoryItemsDto[] ?? categoryItems.ToArray();
 
-        if (categoryItemsDtos.SequenceEqual(Categories, new CategoryItemsEqualityComparer())) return;
+        if (categoryItemsDtos.SequenceEqual(Categories,
+                                            new CategoryItemsEqualityComparer()))
+            return;
 
         var selectedCategory = _selectedCategory;
 

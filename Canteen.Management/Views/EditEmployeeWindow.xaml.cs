@@ -13,14 +13,16 @@ public partial class EditEmployeeWindow : Window
         DataContext = App.Current.Services.GetService<EditEmployeeViewModel>();
     }
 
-    private void Close_OnClick(object sender, RoutedEventArgs e)
+    private void Close_OnClick(object sender,
+                               RoutedEventArgs e)
     {
         DialogResult = false;
 
         Close();
     }
 
-    private void EditEmployee_OnClick(object sender, RoutedEventArgs e)
+    private void EditEmployee_OnClick(object sender,
+                                      RoutedEventArgs e)
     {
         DialogResult = true;
 

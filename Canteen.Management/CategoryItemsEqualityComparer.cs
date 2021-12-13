@@ -7,13 +7,20 @@ namespace Canteen.Management;
 
 public class CategoryItemsEqualityComparer : IEqualityComparer<CategoryItemsDto>
 {
-    public bool Equals(CategoryItemsDto? x, CategoryItemsDto? y)
+    public bool Equals(CategoryItemsDto? x,
+                       CategoryItemsDto? y)
     {
-        if (ReferenceEquals(x, y)) return true;
+        if (ReferenceEquals(x,
+                            y))
+            return true;
 
-        if (ReferenceEquals(x, null!)) return false;
+        if (ReferenceEquals(x,
+                            null!))
+            return false;
 
-        if (ReferenceEquals(y, null!)) return false;
+        if (ReferenceEquals(y,
+                            null!))
+            return false;
 
         if (x.GetType() != y.GetType()) return false;
 
@@ -22,6 +29,7 @@ public class CategoryItemsEqualityComparer : IEqualityComparer<CategoryItemsDto>
 
     public int GetHashCode(CategoryItemsDto obj)
     {
-        return HashCode.Combine(obj.CategoryId, obj.Name);
+        return HashCode.Combine(obj.CategoryId,
+                                obj.Name);
     }
 }

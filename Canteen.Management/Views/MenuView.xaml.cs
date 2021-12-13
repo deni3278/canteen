@@ -9,7 +9,7 @@ public partial class MenuView : UserControl
     public MenuView()
     {
         InitializeComponent();
-        
+
         DataContext = App.Current.Services.GetService<MenuViewModel>();
     }
 }
