@@ -29,7 +29,7 @@ public class LunchMenusController : ControllerBase
         var currentYear = (short) DateTime.Now.Year;
         var currentWeek = (short) ISOWeek.GetWeekOfYear(DateTime.Now);
 
-        var lunchMenuDto = await _context.LunchMenus.Include(menu => menu.LunchCancellations)
+        var lunchMenuDto = await _context.LunchMenus
                                          .ProjectTo<LunchMenuDto>(_mapper.ConfigurationProvider)
                                          .FirstAsync(menu => menu.Number == currentWeek && menu.Year == currentYear);
 
