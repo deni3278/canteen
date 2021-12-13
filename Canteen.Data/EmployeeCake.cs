@@ -7,6 +7,8 @@ public partial class EmployeeCake
     public short Number { get; set; }
     public short Year { get; set; }
     public short Limit { get; set; }
+    
+    public string Day { get; set; }
 
     public virtual Employee Employee { get; set; } = null!;
     public virtual Item Item { get; set; } = null!;

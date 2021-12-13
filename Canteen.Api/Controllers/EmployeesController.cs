@@ -57,7 +57,7 @@ public class EmployeesController : ControllerBase
 
         var employeeCakeDto = await _context.EmployeeCakes.Where(empCake => empCake.EmployeeId == id && empCake.Year == currentYear && empCake.Number == currenWeek)
                                             .ProjectTo<EmployeeCakeDto>(_mapper.ConfigurationProvider)
-                                            .FirstAsync();
+                                            .ToListAsync();
 
         return Ok(employeeCakeDto);
     }

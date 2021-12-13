@@ -7,4 +7,5 @@ public class EmployeeCakeDto
     public short Number { get; set; }
     public short Year { get; set; }
     public short Limit { get; set; }
+    public string Day { get; set; }
 }
