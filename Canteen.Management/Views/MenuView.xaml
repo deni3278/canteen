@@ -4,14 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Canteen.Management.ViewModels"
+             xmlns:dto="clr-namespace:Canteen.Dto;assembly=Canteen.Dto"
+             xmlns:views="clr-namespace:Canteen.Management.Views"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:MenuViewModel, IsDesignTimeCreatable=True}"
              d:DesignWidth="824"
              d:DesignHeight="768"
              Padding="20">
     <Grid>
-        <Label Content="Menu View"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center" />
+       <TabControl>
+           <TabItem Header="Lunch">
+               <views:LunchTabView />
+           </TabItem>
+           <TabItem Header="Breakfast">
+               <views:BreakfastTabView />
+           </TabItem>
+       </TabControl>
     </Grid>
 </UserControl>

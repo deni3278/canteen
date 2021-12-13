@@ -22,4 +22,8 @@
       <None Remove="Images\placeholder.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Page Remove="Themes\ComboBox.xaml" />
+    </ItemGroup>
+
 </Project>
