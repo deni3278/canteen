@@ -47,7 +47,11 @@ public class ItemsController : ControllerBase
     [HttpGet("category/{categoryId:int}")]
     public async Task<IActionResult> GetItemsByCategoryIdAsync(int categoryId)
     {
-        return await Task.Run(Ok);
+        var items = await _context.Items
+            .ProjectTo<ItemDto>(_mapper.ConfigurationProvider)
+            .Where(dto => dto.CategoryId == categoryId)
+            .ToListAsync();
+        return Ok(items);
     }
 
     [HttpGet("{id:int}")]
