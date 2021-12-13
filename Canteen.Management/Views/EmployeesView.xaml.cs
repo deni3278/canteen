@@ -24,9 +24,9 @@ public partial class EmployeesView : UserControl
         var employeesViewModel = DataContext as EmployeesViewModel;
         var editEmployeeViewModel = window.DataContext as EditEmployeeViewModel;
 
-        await editEmployeeViewModel.Initialize(employeesViewModel.SelectedEmployee);
+        await editEmployeeViewModel!.Initialize(employeesViewModel!.SelectedEmployee);
 
-        if (!window.ShowDialog().Value) return;
+        if (!window.ShowDialog()!.Value) return;
 
         await employeesViewModel.EditEmployee(editEmployeeViewModel.EmployeeLunch);
     }
@@ -34,6 +34,6 @@ public partial class EmployeesView : UserControl
     private async void Refresh_OnClick(object sender, RoutedEventArgs e)
     {
         var employeesViewModel = DataContext as EmployeesViewModel;
-        await employeesViewModel.RefreshCommand.ExecuteAsync(null);
+        await employeesViewModel!.RefreshCommand.ExecuteAsync(null);
     }
 }

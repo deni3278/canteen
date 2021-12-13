@@ -6,5 +6,5 @@ public class OrderDto
     public int EmployeeId { get; set; }
     public short Number { get; set; }
     public short Year { get; set; }
-    public ICollection<OrderItemDto> OrderItems { get; set; }
+    public ICollection<OrderItemDto> OrderItems { get; set; } = null!;
 }

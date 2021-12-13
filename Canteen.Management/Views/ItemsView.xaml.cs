@@ -11,7 +11,7 @@ public partial class ItemsView : UserControl
     public ItemsView()
     {
         InitializeComponent();
-        
+
         DataContext = App.Current.Services.GetService<ItemsViewModel>();
     }
 
@@ -25,32 +25,31 @@ public partial class ItemsView : UserControl
         var itemsViewModel = DataContext as ItemsViewModel;
         var addItemViewModel = window.DataContext as AddItemViewModel;
 
-        await itemsViewModel.RefreshCommand.ExecuteAsync(null);
-        
+        await itemsViewModel!.RefreshCommand.ExecuteAsync(null);
+
         foreach (var category in itemsViewModel.Categories)
         {
-            addItemViewModel.Categories.Add(new CategoryDto
+            addItemViewModel!.Categories.Add(new CategoryDto
             {
                 CategoryId = category.CategoryId,
                 Name = category.Name
             });
         }
 
-        if (!window.ShowDialog().Value)
-            return;
+        if (!window.ShowDialog()!.Value) return;
 
-        await itemsViewModel.AddItem(addItemViewModel.Item);
+        await itemsViewModel.AddItem(addItemViewModel!.Item);
     }
 
     private async void Refresh_OnClick(object sender, RoutedEventArgs e)
     {
         var itemsViewModel = DataContext as ItemsViewModel;
-        await itemsViewModel.RefreshCommand.ExecuteAsync(null);
+        await itemsViewModel!.RefreshCommand.ExecuteAsync(null);
     }
 
     private async void RemoveItem_OnClick(object sender, RoutedEventArgs e)
     {
         var itemsViewModel = DataContext as ItemsViewModel;
-        await itemsViewModel.RemoveCommand.ExecuteAsync(null);
+        await itemsViewModel!.RemoveCommand.ExecuteAsync(null);
     }
 }

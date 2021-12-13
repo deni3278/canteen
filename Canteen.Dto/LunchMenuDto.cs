@@ -10,5 +10,5 @@ public class LunchMenuDto
     public int? WednesdayItemId { get; set; }
     public int? ThursdayItemId { get; set; }
     public int? FridayItemId { get; set; }
-    public ICollection<LunchCancellationDto> LunchCancellations { get; set; }
+    public ICollection<LunchCancellationDto> LunchCancellations { get; set; } = null!;
 }

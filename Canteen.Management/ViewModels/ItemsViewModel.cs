@@ -17,8 +17,8 @@ public class ItemsViewModel : ObservableObject
     private double _idColumnWidth;
     private double _nameColumnWidth;
     private double _priceColumnWidth;
-    private ItemDto _selectedItem;
-    private CategoryItemsDto _selectedCategory;
+    private ItemDto _selectedItem = null!;
+    private CategoryItemsDto _selectedCategory = null!;
 
     public ObservableCollection<CategoryItemsDto> Categories { get; } = new();
     public IAsyncRelayCommand RefreshCommand { get; }
@@ -65,7 +65,7 @@ public class ItemsViewModel : ObservableObject
 
         RefreshCommand = new AsyncRelayCommand(Refresh);
         ResizeCommand = new RelayCommand<double>(Resize);
-        RemoveCommand = new AsyncRelayCommand(async () => await _api.PostAsync("items/delete", SelectedItem), () => SelectedItem != null);
+        RemoveCommand = new AsyncRelayCommand(async () => await _api.PostAsync("items/delete", SelectedItem), () => SelectedItem != null!);
     }
 
     public async Task AddItem(ItemDto item)
@@ -78,13 +78,15 @@ public class ItemsViewModel : ObservableObject
     {
         var categoryItems = await _api.GetAsync<IEnumerable<CategoryItemsDto>>("categories?includeItems=true");
 
-        if (categoryItems.SequenceEqual(Categories, new CategoryItemsEqualityComparer())) return;
+        var categoryItemsDtos = categoryItems as CategoryItemsDto[] ?? categoryItems.ToArray();
+
+        if (categoryItemsDtos.SequenceEqual(Categories, new CategoryItemsEqualityComparer())) return;
 
         var selectedCategory = _selectedCategory;
 
         Categories.Clear();
 
-        foreach (var category in categoryItems)
+        foreach (var category in categoryItemsDtos)
         {
             category.Items = new ObservableCollection<ItemDto>(category.Items);
 
@@ -104,8 +106,8 @@ public class ItemsViewModel : ObservableObject
         const double nameColumn = 0.60;
         const double priceColumn = 0.20;
 
-        IdColumnWidth = actualWidth    * idColumn;
-        NameColumnWidth = actualWidth  * nameColumn;
+        IdColumnWidth = actualWidth * idColumn;
+        NameColumnWidth = actualWidth * nameColumn;
         PriceColumnWidth = actualWidth * priceColumn;
     }
 }

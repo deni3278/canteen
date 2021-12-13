@@ -25,11 +25,10 @@ public partial class AddItemWindow : Window
             CheckPathExists = true
         };
 
-        if (!openFileDialog.ShowDialog().Value)
-            return;
+        if (!openFileDialog.ShowDialog()!.Value) return;
 
         var path = openFileDialog.FileName;
-        (DataContext as AddItemViewModel).Path = path;
+        (DataContext as AddItemViewModel)!.Path = path;
     }
 
     private void SetDialogResultFalse_OnClick(object sender, RoutedEventArgs e)

@@ -28,8 +28,7 @@ public class EmployeesController : ControllerBase
     {
         var employeeDtos = await _context.Employees.ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider).ToListAsync();
 
-        if (employeeDtos == null)
-            return StatusCode(StatusCodes.Status500InternalServerError);
+        if (employeeDtos == null!) return StatusCode(StatusCodes.Status500InternalServerError);
 
         return Ok(employeeDtos);
     }
@@ -39,16 +38,13 @@ public class EmployeesController : ControllerBase
     {
         var employeeIdClaim = User.Claims.FirstOrDefault(claim => claim.Type == "id")!;
 
-        if (!int.TryParse(employeeIdClaim.Value, out var employeeId))
-            return BadRequest();
+        if (!int.TryParse(employeeIdClaim.Value, out var employeeId)) return BadRequest();
 
-        var employeeDto = await _context.Employees
-            .Include(employee => employee.Items)
-            .ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(employee => employee.EmployeeId == employeeId);
+        var employeeDto = await _context.Employees.Include(employee => employee.Items)
+                                        .ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider)
+                                        .FirstOrDefaultAsync(employee => employee.EmployeeId == employeeId);
 
-        if (employeeDto == null)
-            return NotFound();
+        if (employeeDto == null) return NotFound();
 
         return Ok(employeeDto);
     }
@@ -56,32 +52,30 @@ public class EmployeesController : ControllerBase
     [HttpGet("cake/{id:int}")]
     public async Task<IActionResult> GetEmployeeCakeAsync(int id)
     {
-        var currenWeek = (short)ISOWeek.GetWeekOfYear(DateTime.Now);
-        var currentYear = (short)DateTime.Now.Year;
-        var employeeCakeDto = await _context.EmployeeCakes
-            .Where(empCake => empCake.EmployeeId == id && empCake.Year == currentYear && empCake.Number == currenWeek)
-            .ProjectTo<EmployeeCakeDto>(_mapper.ConfigurationProvider)
-            .FirstAsync();
+        var currenWeek = (short) ISOWeek.GetWeekOfYear(DateTime.Now);
+        var currentYear = (short) DateTime.Now.Year;
+
+        var employeeCakeDto = await _context.EmployeeCakes.Where(empCake => empCake.EmployeeId == id && empCake.Year == currentYear && empCake.Number == currenWeek)
+                                            .ProjectTo<EmployeeCakeDto>(_mapper.ConfigurationProvider)
+                                            .FirstAsync();
 
         return Ok(employeeCakeDto);
     }
 
     [HttpPost, Route("favourites")]
-    public async Task<IActionResult> addFavouriteItem(int itemId)
+    public async Task<IActionResult> AddFavouriteItemAsync(int itemId)
     {
         var item = await _context.Items.FindAsync(itemId);
 
         var employeeIdClaim = User.Claims.FirstOrDefault(claim => claim.Type == "id")!;
 
-        if (!int.TryParse(employeeIdClaim.Value, out var employeeId))
-            return BadRequest();
+        if (!int.TryParse(employeeIdClaim.Value, out var employeeId)) return BadRequest();
 
         var employee = await _context.Employees.FindAsync(employeeId);
 
-        if (employee == null)
-            return NotFound();
+        if (employee == null) return NotFound();
 
-        employee.Items.Add(item);
+        employee.Items.Add(item!);
 
         await _context.SaveChangesAsync();
 
@@ -95,17 +89,13 @@ public class EmployeesController : ControllerBase
 
         var employeeIdClaim = User.Claims.FirstOrDefault(claim => claim.Type == "id")!;
 
-        if (!int.TryParse(employeeIdClaim.Value, out var employeeId))
-            return BadRequest();
+        if (!int.TryParse(employeeIdClaim.Value, out var employeeId)) return BadRequest();
 
-        var employee = await _context.Employees
-            .Include(employee => employee.Items)
-            .FirstAsync(employee => employee.EmployeeId == employeeId);
+        var employee = await _context.Employees.Include(employee => employee.Items).FirstAsync(employee => employee.EmployeeId == employeeId);
 
-        if (employee == null)
-            return NotFound();
+        if (employee == null!) return NotFound();
 
-        employee.Items.Remove(item);
+        employee.Items.Remove(item!);
 
         await _context.SaveChangesAsync();
 
@@ -113,7 +103,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPost, Route("cakes")]
-    public async Task<IActionResult> addEmployeeCakeAsync(EmployeeCakeDto employeeCakeDto)
+    public async Task<IActionResult> AddEmployeeCakeAsync(EmployeeCakeDto employeeCakeDto)
     {
         var employeeCake = _mapper.Map<EmployeeCake>(employeeCakeDto);
         await _context.EmployeeCakes.AddAsync(employeeCake);

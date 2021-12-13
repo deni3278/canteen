@@ -11,10 +11,10 @@ namespace Canteen.Management.ViewModels;
 
 public class AddItemViewModel : ObservableValidator
 {
-    private string _name;
-    private string _price;
-    private CategoryDto _category;
-    private string _path;
+    private string _name = null!;
+    private string _price = null!;
+    private CategoryDto _category = null!;
+    private string _path = null!;
 
     [Required]
     [MinLength(1)]
@@ -50,22 +50,22 @@ public class AddItemViewModel : ObservableValidator
     public ObservableCollection<CategoryDto> Categories { get; } = new();
     public IRelayCommand AddCommand { get; }
     public IRelayCommand CloseCommand { get; }
-    public ItemDto Item { get; private set; }
+    public ItemDto Item { get; private set; } = null!;
 
     public AddItemViewModel()
     {
         AddCommand = new RelayCommand(CreateItem, () => !HasErrors);
+
         CloseCommand = new RelayCommand(() =>
         {
             foreach (Window window in App.Current.Windows)
             {
-                if (window.GetType() == typeof(AddItemWindow))
-                    window.Close();
+                if (window.GetType() == typeof(AddItemWindow)) window.Close();
             }
         });
-        
+
         ErrorsChanged += (_, _) => AddCommand.NotifyCanExecuteChanged();
-        
+
         ValidateAllProperties();
     }
 
@@ -82,14 +82,14 @@ public class AddItemViewModel : ObservableValidator
 
         CloseCommand.Execute(null);
     }
-    
+
     public static ValidationResult ValidatePrice(string price, ValidationContext context)
     {
-        return decimal.TryParse(price, out _) ? ValidationResult.Success : new ValidationResult("Cannot be parsed to a decimal");
+        return (decimal.TryParse(price, out _) ? ValidationResult.Success : new ValidationResult("Cannot be parsed to a decimal"))!;
     }
-    
+
     public static ValidationResult ValidateFileName(string fileName, ValidationContext context)
     {
-        return File.Exists(fileName) ? ValidationResult.Success : new ValidationResult("File does not exist");
+        return (File.Exists(fileName) ? ValidationResult.Success : new ValidationResult("File does not exist"))!;
     }
 }

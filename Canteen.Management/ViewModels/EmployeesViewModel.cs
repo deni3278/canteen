@@ -15,12 +15,12 @@ public class EmployeesViewModel : ObservableObject
     private double _idColumnWidth;
     private double _firstNameColumnWidth;
     private double _lastNameColumnWidth;
-    private EmployeeDto _selectedEmployee;
+    private EmployeeDto _selectedEmployee = null!;
     private bool _hasSelectedItem;
 
     public ObservableCollection<EmployeeDto> Employees { get; } = new();
     public IAsyncRelayCommand RefreshCommand { get; }
-    public IAsyncRelayCommand EditCommand { get; }
+    public IAsyncRelayCommand EditCommand { get; } = null!;
     public IRelayCommand<double> ResizeCommand { get; }
 
     public EmployeeDto SelectedEmployee
@@ -29,7 +29,7 @@ public class EmployeesViewModel : ObservableObject
         set
         {
             SetProperty(ref _selectedEmployee, value);
-            HasSelectedItem = SelectedEmployee != null;
+            HasSelectedItem = SelectedEmployee != null!;
         }
     }
 
@@ -60,15 +60,15 @@ public class EmployeesViewModel : ObservableObject
     public EmployeesViewModel(IApiService api)
     {
         _api = api;
-        
+
         RefreshCommand = new AsyncRelayCommand(Refresh);
         ResizeCommand = new RelayCommand<double>(Resize);
     }
 
     private async Task Refresh()
-    {   
+    {
         var employees = await _api.GetAsync<IEnumerable<EmployeeDto>>("employees");
-        
+
         Employees.Clear();
 
         foreach (var employee in employees)
@@ -85,7 +85,7 @@ public class EmployeesViewModel : ObservableObject
     private void Resize(double viewWidth)
     {
         var actualWidth = viewWidth - SystemParameters.VerticalScrollBarWidth;
-        
+
         const double idColumn = 0.20;
         const double firstNameColumn = 0.60;
         const double lastNameColumn = 0.20;

@@ -26,23 +26,16 @@ public class CategoriesController : ControllerBase
     public async Task<IActionResult> GetCategoriesAsync(bool includeItems)
     {
         var categoriesSet = _context.Categories;
-        IEnumerable<Category> categories = includeItems
-            ? await categoriesSet.Include(category => category.Items).ToListAsync()
-            : await categoriesSet.ToListAsync();
+        IEnumerable<Category> categories = includeItems ? await categoriesSet.Include(category => category.Items).ToListAsync() : await categoriesSet.ToListAsync();
 
         IEnumerable dtos;
 
         if (includeItems)
-        {
             dtos = _mapper.Map<IEnumerable<CategoryItemsDto>>(categories);
-        }
         else
-        {
             dtos = _mapper.Map<IEnumerable<CategoryDto>>(categories);
-        }
 
-        if (dtos == null)
-            return StatusCode(StatusCodes.Status500InternalServerError);
+        if (dtos == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
         return Ok(dtos);
     }

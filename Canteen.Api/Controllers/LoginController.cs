@@ -26,24 +26,29 @@ public class LoginController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> LoginAsync(PasswordDto passwordDto)
     {
-        if (passwordDto.Password == null)
-            return BadRequest();
+        if (passwordDto.Password == null!) return BadRequest();
 
-        var employee = await _context.Employees.Where(employee => employee.Password.Equals(passwordDto.Password))
-            .FirstOrDefaultAsync();
+        var employee = await _context.Employees.Where(employee => employee.Password.Equals(passwordDto.Password)).FirstOrDefaultAsync();
 
-        if (employee == null)
-            return Unauthorized();
+        if (employee == null) return Unauthorized();
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
         var tokenHandler = new JwtSecurityTokenHandler();
+
         var securityToken = tokenHandler.CreateJwtSecurityToken(new SecurityTokenDescriptor
         {
             SigningCredentials = credentials,
-            Claims = new Dictionary<string, object> {["id"] = employee.EmployeeId}
+            Claims = new Dictionary<string, object>
+            {
+                ["id"] = employee.EmployeeId
+            }
         });
-        var jwt = new {token = tokenHandler.WriteToken(securityToken)};
+
+        var jwt = new
+        {
+            token = tokenHandler.WriteToken(securityToken)
+        };
 
         return Ok(jwt);
     }

@@ -10,21 +10,21 @@ namespace Canteen.Management.ViewModels;
 public class EditEmployeeViewModel : ObservableValidator
 {
     private readonly IApiService _api;
-    
+
     private bool _mondayChecked;
     private bool _tuesdayChecked;
     private bool _wednesdayChecked;
     private bool _thursdayChecked;
     private bool _fridayChecked;
 
-    public EmployeeDto Employee { get; set; }
-    public LunchMenuDto LunchMenu { get; set; }
-    public EmployeeLunchDto EmployeeLunch { get; set; }
-    public ItemDto MondayItem { get; set; }
-    public ItemDto TuesdayItem { get; set; }
-    public ItemDto WednesdayItem { get; set; }
-    public ItemDto ThursdayItem { get; set; }
-    public ItemDto FridayItem { get; set; }
+    public EmployeeDto Employee { get; set; } = null!;
+    public LunchMenuDto LunchMenu { get; set; } = null!;
+    public EmployeeLunchDto EmployeeLunch { get; set; } = null!;
+    public ItemDto MondayItem { get; set; } = null!;
+    public ItemDto TuesdayItem { get; set; } = null!;
+    public ItemDto WednesdayItem { get; set; } = null!;
+    public ItemDto ThursdayItem { get; set; } = null!;
+    public ItemDto FridayItem { get; set; } = null!;
 
     public bool MondayChecked
     {
@@ -88,8 +88,7 @@ public class EditEmployeeViewModel : ObservableValidator
 
         try
         {
-            EmployeeLunch = await _api.GetAsync<EmployeeLunchDto>("lunchmenus/employeelunch/" + Employee.EmployeeId +
-                                                                  "/" + LunchMenu.LunchMenuId);
+            EmployeeLunch = await _api.GetAsync<EmployeeLunchDto>("lunchmenus/employeelunch/" + Employee.EmployeeId + "/" + LunchMenu.LunchMenuId);
         }
         catch (HttpRequestException)
         {
@@ -104,7 +103,7 @@ public class EditEmployeeViewModel : ObservableValidator
                 Friday = false
             };
         }
-        
+
         OnPropertyChanged(nameof(Employee));
         OnPropertyChanged(nameof(LunchMenu));
         OnPropertyChanged(nameof(EmployeeLunch));
