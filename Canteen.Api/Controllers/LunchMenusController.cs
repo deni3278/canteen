@@ -29,9 +29,7 @@ public class LunchMenusController : ControllerBase
         var currentYear = (short) DateTime.Now.Year;
         var currentWeek = (short) ISOWeek.GetWeekOfYear(DateTime.Now);
 
-        var lunchMenuDto = await _context.LunchMenus
-                                         .ProjectTo<LunchMenuDto>(_mapper.ConfigurationProvider)
-                                         .FirstAsync(menu => menu.Number == currentWeek && menu.Year == currentYear);
+        var lunchMenuDto = await _context.LunchMenus.ProjectTo<LunchMenuDto>(_mapper.ConfigurationProvider).FirstAsync(menu => menu.Number == currentWeek && menu.Year == currentYear);
 
         if (lunchMenuDto == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
@@ -58,8 +56,7 @@ public class LunchMenusController : ControllerBase
     [HttpGet, Route("employeeLunch/{employeeId}/{lunchMenuId}")]
     public async Task<ActionResult<EmployeeLunchDto>> GetEmployeeLunchAsync(int lunchMenuId, int employeeId)
     {
-        var employeeLunchDto = await _context.EmployeeLunches.ProjectTo<EmployeeLunchDto>(_mapper.ConfigurationProvider)
-                                             .FirstAsync(dto => dto.LunchMenuId == lunchMenuId && dto.EmployeeId == employeeId);
+        var employeeLunchDto = await _context.EmployeeLunches.ProjectTo<EmployeeLunchDto>(_mapper.ConfigurationProvider).FirstAsync(dto => dto.LunchMenuId == lunchMenuId && dto.EmployeeId == employeeId);
 
         if (employeeLunchDto == null) return NotFound();
 
