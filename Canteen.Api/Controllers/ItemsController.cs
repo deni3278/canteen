@@ -26,10 +26,12 @@ public class ItemsController : ControllerBase
     [HttpGet, Route("{active:bool?}")]
     public async Task<IActionResult> GetItemsAsync(bool active, [FromQuery] bool withImage = true)
     {
-        IQueryable<Item> items = _context.Items.Include(item => item.Category);
+        IQueryable<Item> items = _context.Items
+            .Include(item => item.Category)
+            .Include(item => item.EmployeeCakes);
 
         if (active) items = items.Where(item => item.Active);
-
+        
         IEnumerable itemResult;
 
         if (!withImage)
