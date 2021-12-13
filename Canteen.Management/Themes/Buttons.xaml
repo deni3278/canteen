@@ -3,73 +3,55 @@
     <Style x:Key="Button"
            TargetType="Button">
         <Style.Setters>
-            <Setter Property="Foreground"
-                    Value="Black" />
-            <Setter Property="FontSize"
-                    Value="20" />
-            <Setter Property="Background"
-                    Value="#6fa478" />
-            <Setter Property="BorderThickness"
-                    Value="0" />
-            <Setter Property="FocusVisualStyle"
-                    Value="{x:Null}" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Background" Value="#6fa478" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid Background="{TemplateBinding Background}"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
                             <TextBlock Text="{TemplateBinding Content}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center" />
-                        </Grid>
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style.Setters>
 
         <Style.Triggers>
-            <Trigger Property="IsMouseOver"
-                     Value="True">
-                <Setter Property="Foreground"
-                        Value="#e9feec" />
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#e9feec" />
             </Trigger>
 
-            <Trigger Property="IsPressed"
-                     Value="True">
-                <Setter Property="Foreground"
-                        Value="#e9feec" />
-                <Setter Property="Background"
-                        Value="#aed2b4" />
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="#e9feec" />
+                <Setter Property="Background" Value="#aed2b4" />
             </Trigger>
 
-            <Trigger Property="IsEnabled"
-                     Value="False">
-                <Setter Property="Foreground"
-                        Value="Black" />
-                <Setter Property="Background"
-                        Value="Gray" />
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Background" Value="Gray" />
             </Trigger>
         </Style.Triggers>
     </Style>
-
+    
     <Style x:Key="NavigationButton"
            BasedOn="{StaticResource {x:Type TypeName=ToggleButton}}"
            TargetType="RadioButton">
         <Style.Setters>
-            <Setter Property="Foreground"
-                    Value="Black" />
-            <Setter Property="FontSize"
-                    Value="20" />
-            <Setter Property="Background"
-                    Value="#6fa478" />
-            <Setter Property="BorderThickness"
-                    Value="0" />
-            <Setter Property="FocusVisualStyle"
-                    Value="{x:Null}" />
-            <Setter Property="Panel.ZIndex"
-                    Value="0" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Background" Value="#6fa478" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Panel.ZIndex" Value="0" />
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -87,25 +69,18 @@
         </Style.Setters>
 
         <Style.Triggers>
-            <Trigger Property="IsMouseOver"
-                     Value="True">
-                <Setter Property="Foreground"
-                        Value="#e9feec" />
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#e9feec" />
             </Trigger>
 
-            <Trigger Property="IsChecked"
-                     Value="True">
-                <Setter Property="Foreground"
-                        Value="#e9feec" />
-                <Setter Property="Background"
-                        Value="#aed2b4" />
-                <Setter Property="Panel.ZIndex"
-                        Value="1" />
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="#e9feec" />
+                <Setter Property="Background" Value="#aed2b4" />
+                <Setter Property="Panel.ZIndex" Value="1" />
 
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect Direction="270"
-                                          Opacity="0.3" />
+                        <DropShadowEffect Direction="270" Opacity="0.3" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
