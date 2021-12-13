@@ -1,4 +1,6 @@
-﻿namespace Canteen.Dto;
+﻿using Canteen.DataAccess;
+
+namespace Canteen.Dto;
 
 public class LunchMenuDto
 {
@@ -10,5 +12,11 @@ public class LunchMenuDto
     public int? WednesdayItemId { get; set; }
     public int? ThursdayItemId { get; set; }
     public int? FridayItemId { get; set; }
-    public ICollection<LunchCancellationDto> LunchCancellations { get; set; } = null!;
+    
+    public LunchCancellationDto? MondayLunchCancellation { get; set; }
+    public LunchCancellationDto? FridayLunchCancellation { get; set; }
+    public LunchCancellationDto? ThursdayLunchCancellation { get; set; }
+    public LunchCancellationDto? TuesdayLunchCancellation { get; set; }
+    public LunchCancellationDto? WednesdayLunchCancellation { get; set; }
+    
 }

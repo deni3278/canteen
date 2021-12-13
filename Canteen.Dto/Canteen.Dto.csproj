@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Canteen.Data\Canteen.Data.csproj" />
+    </ItemGroup>
+
 </Project>
