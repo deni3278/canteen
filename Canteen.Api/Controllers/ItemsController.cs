@@ -85,6 +85,7 @@ public class ItemsController : ControllerBase
         if (item == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
         item.Category = null!;
+        item.Active = true;
         await _context.Items.AddAsync(item);
         await _context.SaveChangesAsync();
 
