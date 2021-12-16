@@ -88,7 +88,7 @@ public class ItemsController : ControllerBase
         await _context.Items.AddAsync(item);
         await _context.SaveChangesAsync();
 
-        return Ok();
+        return CreatedAtRoute("create", new { id = item.ItemId }, item);
     }
 
     [HttpGet, Route("{id}/image")]

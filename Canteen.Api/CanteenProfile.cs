@@ -8,6 +8,7 @@ public class CanteenProfile : Profile
 {
     public CanteenProfile()
     {
+        CreateMap<Week, WeekDto>().ReverseMap();
         CreateMap<Item, ItemWithoutImageDto>().ReverseMap();
         CreateMap<Category, CategoryItemsDto>().ReverseMap();
         CreateMap<Category, CategoryDto>().ReverseMap();

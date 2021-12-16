@@ -56,10 +56,21 @@ public class LunchMenusController : ControllerBase
     [HttpGet, Route("employeeLunch/{employeeId}/{lunchMenuId}")]
     public async Task<ActionResult<EmployeeLunchDto>> GetEmployeeLunchAsync(int lunchMenuId, int employeeId)
     {
-        var employeeLunchDto = await _context.EmployeeLunches.ProjectTo<EmployeeLunchDto>(_mapper.ConfigurationProvider).FirstAsync(dto => dto.LunchMenuId == lunchMenuId && dto.EmployeeId == employeeId);
+        var employeeLunchDto = await _context.EmployeeLunches.ProjectTo<EmployeeLunchDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(dto => dto.LunchMenuId == lunchMenuId && dto.EmployeeId == employeeId);
 
-        if (employeeLunchDto == null) return NotFound();
-
+        if (employeeLunchDto == null)
+        {
+            var item = new EmployeeLunch
+            {
+                LunchMenuId = lunchMenuId,
+                EmployeeId = employeeId
+            };
+            _context.EmployeeLunches.Add(item);
+            
+            await _context.SaveChangesAsync();
+             
+            employeeLunchDto = _mapper.Map<EmployeeLunchDto>(item);
+        }
         return Ok(employeeLunchDto);
     }
 }
