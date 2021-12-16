@@ -91,7 +91,7 @@ public class Tests
 
         Assert.IsInstanceOf<IEnumerable<ItemDto>>(itemsReturned);
         
-        Assert.True(itemsReturned.All(dto => dto.Active == true));
+        Assert.True(itemsReturned.All(dto => dto.Active));
     }
     
     [Test]

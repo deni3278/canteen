@@ -26,7 +26,9 @@ public class CategoriesController : ControllerBase
     public async Task<IActionResult> GetCategoriesAsync(bool includeItems)
     {
         var categoriesSet = _context.Categories;
-        IEnumerable<Category> categories = includeItems ? await categoriesSet.Include(category => category.Items).ToListAsync() : await categoriesSet.ToListAsync();
+        IEnumerable<Category> categories =
+            includeItems ? await categoriesSet.Include(category => category.Items.Where(item => item.Active)).ToListAsync()
+            : await categoriesSet.ToListAsync();
 
         IEnumerable dtos;
 
