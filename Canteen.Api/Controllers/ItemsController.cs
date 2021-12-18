@@ -26,12 +26,10 @@ public class ItemsController : ControllerBase
     [HttpGet, Route("{active:bool?}")]
     public async Task<IActionResult> GetItemsAsync(bool active, [FromQuery] bool withImage = true)
     {
-        IQueryable<Item> items = _context.Items
-            .Include(item => item.Category)
-            .Include(item => item.EmployeeCakes);
+        IQueryable<Item> items = _context.Items.Include(item => item.Category).Include(item => item.EmployeeCakes);
 
         if (active) items = items.Where(item => item.Active);
-        
+
         IEnumerable itemResult;
 
         if (!withImage)
@@ -47,10 +45,8 @@ public class ItemsController : ControllerBase
     [HttpGet("category/{categoryId:int}")]
     public async Task<IActionResult> GetItemsByCategoryIdAsync(int categoryId)
     {
-        var items = await _context.Items
-            .ProjectTo<ItemDto>(_mapper.ConfigurationProvider)
-            .Where(dto => dto.CategoryId == categoryId)
-            .ToListAsync();
+        var items = await _context.Items.Where(item => item.CategoryId == categoryId).ProjectTo<ItemDto>(_mapper.ConfigurationProvider).ToListAsync();
+
         return Ok(items);
     }
 
@@ -89,7 +85,12 @@ public class ItemsController : ControllerBase
         await _context.Items.AddAsync(item);
         await _context.SaveChangesAsync();
 
-        return CreatedAtRoute("create", new { id = item.ItemId }, item);
+        return CreatedAtRoute("create",
+                              new
+                              {
+                                  id = item.ItemId
+                              },
+                              item);
     }
 
     [HttpGet, Route("{id}/image")]

@@ -7,13 +7,14 @@
              xmlns:viewModels="clr-namespace:Canteen.Management.ViewModels"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="700"
+             d:DesignHeight="500"
+             d:DesignWidth="700"
              d:DataContext="{d:DesignInstance viewModels:LunchTabViewModel}">
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="4*" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
                 Grid.RowSpan="2"
@@ -21,7 +22,8 @@
                 Background="#f6f6f6"
                 Margin="10">
             <Border.Effect>
-                <DropShadowEffect Direction="270" Opacity="0.3"/>
+                <DropShadowEffect Direction="270"
+                                  Opacity="0.3" />
             </Border.Effect>
         </Border>
         <StackPanel Grid.Row="0"
@@ -37,149 +39,138 @@
                     HorizontalAlignment="Right"
                     Margin="0,0,25,10">
                 <Button.Effect>
-                    <DropShadowEffect Direction="270" Opacity="0.3"/>
+                    <DropShadowEffect Direction="270"
+                                      Opacity="0.3" />
                 </Button.Effect>
             </Button>
         </StackPanel>
         <Border Grid.Row="1"
                 CornerRadius="10"
                 Background="#c4c4c4"
-                Margin="10"/>
+                Margin="10" />
         <Grid Grid.Row="1"
               Background="#c4c4c4"
               Margin="15">
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0"
                             VerticalAlignment="Top"
                             Orientation="Vertical"
                             Margin="0,0,5,0">
-                    
+
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Loaded">
                             <i:InvokeCommandAction Command="{Binding RefreshCommand}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <TextBox Text="Day of the week &#x0a;Date"
-                             Style="{StaticResource TextBoxWeekday}"/>
+                             Style="{StaticResource TextBoxWeekday}" />
                     <ComboBox IsTextSearchEnabled="True"
                               Margin="0,0,0,8"
                               ItemsSource="{Binding LunchItems}"
                               DisplayMemberPath="Name"
-                              SelectedItem="{Binding SelectedItemMonday}">
-                        <ComboBoxItem Content="No Lunch"/>
-                    </ComboBox>
-                        <Image MaxHeight="110"
-                               MaxWidth="110"
-                               MinHeight="109"
-                               MinWidth="109"
-                               Margin="0,8,0,8"
-                               Source="{Binding SelectedItemMonday.Image, Converter={StaticResource ByteToImageConverter}}"
-                               Stretch="Fill">
-                        
-                    </Image>
+                              SelectedItem="{Binding SelectedItemMonday}" />
+                    <Image MaxHeight="110"
+                           MaxWidth="110"
+                           MinHeight="109"
+                           MinWidth="109"
+                           Margin="0,8,0,8"
+                           Source="{Binding SelectedItemMonday.Image, Converter={StaticResource ByteToImageConverter}}"
+                           Stretch="Fill" />
                     <TextBox Text="Comments for the day"
-                             Style="{StaticResource TextBoxComment}"/>
+                             Style="{StaticResource TextBoxComment}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1"
                             VerticalAlignment="Top"
                             Orientation="Vertical"
                             Margin="5,0,5,0">
                     <TextBox Text="Day of the week &#x0a;Date"
-                             Style="{StaticResource TextBoxWeekday}"/>
+                             Style="{StaticResource TextBoxWeekday}" />
                     <ComboBox IsTextSearchEnabled="True"
                               Margin="0,0,0,8"
                               ItemsSource="{Binding LunchItems}"
                               DisplayMemberPath="Name"
-                              SelectedItem="{Binding SelectedItemTuesday}"/>
+                              SelectedItem="{Binding SelectedItemTuesday}" />
                     <Image MaxHeight="110"
                            MaxWidth="110"
                            MinHeight="109"
                            MinWidth="109"
                            Margin="0,8,0,8"
                            Source="{Binding SelectedItemTuesday.Image, Converter={StaticResource ByteToImageConverter}}"
-                           Stretch="Fill">
-                        
-                    </Image>
+                           Stretch="Fill" />
                     <TextBox Text="Comments for the day"
-                             Style="{StaticResource TextBoxComment}"/>
+                             Style="{StaticResource TextBoxComment}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2"
                             VerticalAlignment="Top"
                             Orientation="Vertical"
                             Margin="5,0,5,0">
                     <TextBox Text="Day of the week &#x0a;Date"
-                             Style="{StaticResource TextBoxWeekday}"/>
+                             Style="{StaticResource TextBoxWeekday}" />
                     <ComboBox IsTextSearchEnabled="True"
                               Margin="0,0,0,8"
                               ItemsSource="{Binding LunchItems}"
                               DisplayMemberPath="Name"
-                              SelectedItem="{Binding SelectedItemWednesday}"/>
+                              SelectedItem="{Binding SelectedItemWednesday}" />
                     <Image MaxHeight="110"
                            MaxWidth="110"
                            MinHeight="109"
                            MinWidth="109"
                            Margin="0,8,0,8"
                            Source="{Binding SelectedItemWednesday.Image, Converter={StaticResource ByteToImageConverter}}"
-                           Stretch="Fill">
-                        
-                    </Image>
+                           Stretch="Fill" />
                     <TextBox Text="Comments for the day"
-                             Style="{StaticResource TextBoxComment}"/>
+                             Style="{StaticResource TextBoxComment}" />
                 </StackPanel>
                 <StackPanel Grid.Column="3"
                             VerticalAlignment="Top"
                             Orientation="Vertical"
                             Margin="5,0,5,0">
                     <TextBox Text="Day of the week &#x0a;Date"
-                             Style="{StaticResource TextBoxWeekday}"/>
+                             Style="{StaticResource TextBoxWeekday}" />
                     <ComboBox IsTextSearchEnabled="True"
                               Margin="0,0,0,8"
                               ItemsSource="{Binding LunchItems}"
                               DisplayMemberPath="Name"
-                              SelectedItem="{Binding SelectedItemThursday}"/>
+                              SelectedItem="{Binding SelectedItemThursday}" />
                     <Image MaxHeight="110"
                            MaxWidth="110"
                            MinHeight="109"
                            MinWidth="109"
                            Margin="0,8,0,8"
                            Source="{Binding SelectedItemThursday.Image, Converter={StaticResource ByteToImageConverter}}"
-                           Stretch="Fill">
-                        
-                    </Image>
+                           Stretch="Fill" />
                     <TextBox Text="Comments for the day"
-                             Style="{StaticResource TextBoxComment}"/>
+                             Style="{StaticResource TextBoxComment}" />
                 </StackPanel>
                 <StackPanel Grid.Column="4"
                             VerticalAlignment="Top"
                             Orientation="Vertical"
                             Margin="5,0,0,0">
                     <TextBox Text="Day of the week &#x0a;Date"
-                             Style="{StaticResource TextBoxWeekday}"/>
+                             Style="{StaticResource TextBoxWeekday}" />
                     <ComboBox IsTextSearchEnabled="True"
                               Margin="0,0,0,8"
                               ItemsSource="{Binding LunchItems}"
                               DisplayMemberPath="Name"
-                              SelectedItem="{Binding SelectedItemFriday}"/>
+                              SelectedItem="{Binding SelectedItemFriday}" />
                     <Image MaxHeight="110"
                            MaxWidth="110"
                            MinHeight="109"
                            MinWidth="109"
                            Margin="0,8,0,8"
                            Source="{Binding SelectedItemFriday.Image, Converter={StaticResource ByteToImageConverter}}"
-                           Stretch="Fill">
-                        
-                    </Image>
+                           Stretch="Fill" />
                     <TextBox Text="Comments for the day"
-                             Style="{StaticResource TextBoxComment}"/>
+                             Style="{StaticResource TextBoxComment}" />
                 </StackPanel>
-                
+
             </Grid>
         </Grid>
     </Grid>

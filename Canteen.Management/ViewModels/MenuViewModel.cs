@@ -6,6 +6,4 @@ namespace Canteen.Management.ViewModels;
 
 public class MenuViewModel : ObservableObject
 {
-    public ObservableCollection<CategoryItemsDto> Categories { get; } = new();
-   
 }
